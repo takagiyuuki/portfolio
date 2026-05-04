@@ -1,0 +1,17 @@
+pre-commit:
+  commands:
+    biome:
+      glob: "*.{js,ts,jsx,tsx,json,astro}"
+      run: pnpm exec biome check --write --no-errors-on-unmatched {staged_files}
+      stage_fixed: true
+    astro-check:
+      glob: "*.{astro,ts}"
+      run: pnpm check
+commit-msg:
+  commands:
+    conventional:
+      run: |
+        msg=$(cat {1})
+        if ! echo "$msg" | grep -qE "^(feat|fix|docs|style|refactor|perf|test|chore|ci|build|revert)(\(.+\))?: .+"; then
+          echo "warn: commit message does not follow Conventional Commits (ignored)"
+        fi
