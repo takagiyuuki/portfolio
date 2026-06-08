@@ -50,3 +50,4 @@ terraform apply
 
 - Provider version: `cloudflare/cloudflare ~> 5.0`
 - OpenTofu 互換性は CI で検証 (ADR-0002)
+- Backend block uses hardcoded values because Terraform resolves the backend before evaluating variables. Migrate to `-backend-config=*.hcl` (gitignored) when multi-environment support is needed.
