@@ -13,7 +13,7 @@ Settings → Rules → Rulesets → New branch ruleset
 |---|---|---|
 | Target | `main` | Protect the production branch |
 | Restrict deletions | ✅ | Prevent accidental branch deletion |
-| Require pull request | ✅, 1 approval | Force code review before merge |
+| Require pull request | ✅, 0 approvals | Enforce PR-based workflow; approval requirement waived for solo + AI workflow (see [ADR-0008](../adr/0008-branch-protection-policy.md)) |
 | Block force pushes | ✅ | Preserve commit history |
 | Require status checks | Add when CI workflow exists | Gate merges on passing CI |
 
