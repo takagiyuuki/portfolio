@@ -6,7 +6,16 @@ pre-commit:
       stage_fixed: true
     astro-check:
       glob: "*.{astro,ts}"
-      run: pnpm check
+      run: pnpm typecheck
+    actionlint:
+      glob:
+        - ".github/workflows/*.{yml,yaml}"
+      run: actionlint {staged_files}
+pre-push:
+  parallel: false
+  commands:
+    precheck:
+      run: pnpm precheck
 commit-msg:
   commands:
     conventional:

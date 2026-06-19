@@ -8,9 +8,9 @@
 
   outputs =
     {
-      self,
       nixpkgs,
       flake-utils,
+      ...
     }:
     flake-utils.lib.eachDefaultSystem (
       system:
@@ -25,6 +25,7 @@
             nodejs_24
             pnpm
             act
+            actionlint
           ];
 
           shellHook = ''

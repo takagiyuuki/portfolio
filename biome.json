@@ -13,7 +13,19 @@
     "lineWidth": 100
   },
   "files": {
-    "includes": ["**", "!!**/dist/", "!!**/.astro/", "!!**/node_modules/"]
+    "includes": [
+      "**",
+      "!**/node_modules",
+      "!**/dist",
+      "!**/.astro",
+      "!**/.direnv",
+      "!**/.wrangler",
+      "!**/.git",
+      "!**/.jj",
+      "!**/.claude",
+      "!infra/terraform/.terraform",
+      "!**/pnpm-lock.yaml"
+    ]
   },
   "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "javascript": {
