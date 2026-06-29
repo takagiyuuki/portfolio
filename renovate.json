@@ -4,6 +4,7 @@
   "timezone": "Asia/Tokyo",
   "schedule": ["before 6am on monday"],
   "dependencyDashboard": true,
+  "dependencyDashboardApproval": false,
   "rangeStrategy": "bump",
   "lockFileMaintenance": {
     "enabled": true,
