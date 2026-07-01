@@ -15,6 +15,11 @@
   },
   "packageRules": [
     {
+      "description": "Override Mend org-injected dependencyDashboardApproval",
+      "matchPackageNames": ["*"],
+      "dependencyDashboardApproval": false
+    },
+    {
       "description": "Automerge devDependencies patch and minor",
       "matchManagers": ["npm"],
       "matchDepTypes": ["devDependencies"],
