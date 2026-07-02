@@ -37,7 +37,7 @@ importers:
         specifier: ^1.61.1
         version: 1.61.1
       '@types/node':
-        specifier: ^25.9.1
+        specifier: ^25.9.4
         version: 25.9.4
       lefthook:
         specifier: ^1.11.0
