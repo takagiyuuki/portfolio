@@ -29,7 +29,7 @@
     "@iconify-json/simple-icons": "^1.2.88",
     "@playwright/test": "^1.61.1",
     "@types/node": "^25.9.4",
-    "lefthook": "^1.11.0",
+    "lefthook": "^1.13.6",
     "typescript": "^5.8.0",
     "vitest": "^3.2.6",
     "wrangler": "^4.95.0"
