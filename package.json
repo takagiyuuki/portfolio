@@ -30,7 +30,7 @@
     "@playwright/test": "^1.61.1",
     "@types/node": "^25.9.4",
     "lefthook": "^1.13.6",
-    "typescript": "^5.8.0",
+    "typescript": "^5.9.3",
     "vitest": "^3.2.6",
     "wrangler": "^4.95.0"
   },
