@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.2",
-    "@iconify-json/lucide": "^1.2.115",
+    "@iconify-json/lucide": "^1.2.116",
     "@iconify-json/simple-icons": "^1.2.88",
     "@playwright/test": "^1.61.1",
     "@types/node": "^25.9.4",
