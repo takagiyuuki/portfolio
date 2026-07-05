@@ -31,8 +31,8 @@ importers:
         specifier: ^1.2.116
         version: 1.2.116
       '@iconify-json/simple-icons':
-        specifier: ^1.2.88
-        version: 1.2.88
+        specifier: ^1.2.89
+        version: 1.2.89
       '@playwright/test':
         specifier: ^1.61.1
         version: 1.61.1
@@ -573,8 +573,8 @@ packages:
   '@iconify-json/lucide@1.2.116':
     resolution: {integrity: sha512-mbwPmiUXaZyLMSeQOxiTqz2fmZikD9qiGnMBiev47UUNY9uGCEgMg9iUYwaJzCtJTDtAIyK4vokfIpqsVorgSw==}
 
-  '@iconify-json/simple-icons@1.2.88':
-    resolution: {integrity: sha512-+cvi1qCuvReL29ehi6t62L4fb7GDXe+UlGHFcsJcV7I2l9wtqn9XE2IBKcDr3CI5iGUGS5ISnXv699pSGpyx1Q==}
+  '@iconify-json/simple-icons@1.2.89':
+    resolution: {integrity: sha512-hRaCY5s2G5oWAIhc4LCGYn6g6RrwLL4zhoLOT+KUO3joVCxVlZKA+839bv/47Nbe9/ZD4UA6dznZ4XPYcI53wA==}
 
   '@iconify/tools@4.2.0':
     resolution: {integrity: sha512-WRxPva/ipxYkqZd1+CkEAQmd86dQmrwH0vwK89gmp2Kh2WyyVw57XbPng0NehP3x4V1LzLsXUneP1uMfTMZmUA==}
@@ -3101,7 +3101,7 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify-json/simple-icons@1.2.88':
+  '@iconify-json/simple-icons@1.2.89':
     dependencies:
       '@iconify/types': 2.0.0
 
