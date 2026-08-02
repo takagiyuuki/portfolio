@@ -28,8 +28,8 @@ importers:
         specifier: ^2.5.6
         version: 2.5.6
       '@iconify-json/lucide':
-        specifier: ^1.2.120
-        version: 1.2.120
+        specifier: ^1.2.121
+        version: 1.2.121
       '@iconify-json/simple-icons':
         specifier: ^1.2.89
         version: 1.2.89
@@ -531,8 +531,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@iconify-json/lucide@1.2.120':
-    resolution: {integrity: sha512-4ECF24fxag1n5tZlPGrbWuCGqhkwD0rvAzfCXretqQb4KEC8Y6ja3khF8qmvpR1Mk0NQDhBTRK3Fr/YoV8QyJw==}
+  '@iconify-json/lucide@1.2.121':
+    resolution: {integrity: sha512-zSoQQSmsyFaeTpSwURHJ9PIrsDcGFpDNhGlpiTrs+Ua4uFeH5UsE26L4OEBLrgLWoSK0UO+JhsO8yehSw0403g==}
 
   '@iconify-json/simple-icons@1.2.89':
     resolution: {integrity: sha512-hRaCY5s2G5oWAIhc4LCGYn6g6RrwLL4zhoLOT+KUO3joVCxVlZKA+839bv/47Nbe9/ZD4UA6dznZ4XPYcI53wA==}
@@ -3039,7 +3039,7 @@ snapshots:
   '@esbuild/win32-x64@0.28.1':
     optional: true
 
-  '@iconify-json/lucide@1.2.120':
+  '@iconify-json/lucide@1.2.121':
     dependencies:
       '@iconify/types': 2.0.0
 
