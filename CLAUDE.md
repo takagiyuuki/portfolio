@@ -21,7 +21,7 @@ SRE/Platform Engineer 志望のアピールを兼ねた運用・IaC 重視構成
 
 ## Stack
 
-- **Framework**: Astro 5.x（React Islands は使用箇所限定）
+- **Framework**: Astro 7.x（React Islands は使用箇所限定）
 - **Language**: TypeScript 5（strict）
 - **CSS**: Tailwind v4（CSS-first config、`@theme` 使用）
 - **Content**: Astro Content Collections + MDX
