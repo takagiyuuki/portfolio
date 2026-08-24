@@ -11,7 +11,7 @@ These must be installed on the machine separately:
 - Nix (flakes enabled) + direnv + nix-direnv
 - Terraform 1.x (S3-compatible R2 backend; OpenTofu optional, see ADR-0002)
 - gh (GitHub CLI)
-- git (jj optional, colocated)
+- git
 
 ## 1. Bootstrap the toolchain (gate step)
 

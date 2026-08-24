@@ -30,9 +30,9 @@ SRE/Platform Engineer 志望のアピールを兼ねた運用・IaC 重視構成
 - **Test**: Vitest 3 + Playwright
 - **Git Hooks**: lefthook（Husky 不使用）
 - **Package Manager**: pnpm 9.x（npm/yarn/bun は使わない。Cloudflare 推奨に準拠）
-- **VCS**: Jujutsu (jj) - colocated（Git backend）
-  - `.jj/` と `.git/` が共存し、`gh` / lefthook / `git log` などの Git ツールも併用可能
-  - GitHub 連携は `jj git push` / `jj git fetch` または `git push` / `git fetch`
+- **VCS**: Git（単独運用。jj からの移行は ADR-0013 を参照）
+  - Git ワークフロー学習のため jj colocated から Git-only へ移行済み
+  - GitHub 連携は `git push` / `git fetch` / `gh`
 - **開発環境**: Nix flakes + direnv + nix-direnv
 - **Hosting**: Cloudflare Workers (Static Assets)
 - **Deploy**: GitHub Actions + Wrangler（Cloudflare API Token 認証。Workers OIDC が GA に到達したら再評価)
@@ -76,14 +76,13 @@ SRE/Platform Engineer 志望のアピールを兼ねた運用・IaC 重視構成
 
 詳細は `@.claude/rules/design.md` を参照（必要時に作成）。
 
-- jj + Git colocated で管理（`.jj/` と `.git/` が共存）
-- 新規変更開始: `jj new`
-- 説明追加: `jj describe -m "..."`
-- ブックマーク作成: `jj bookmark create <name>`
-- push: `jj git push --change @-` または `jj git push --bookmark <name>`
-- リモート同期: `jj git fetch`
-- リベース: `jj rebase -d main`
-- PR は GitHub で作成、CI は GitHub Actions
+- Git 単独で管理（ADR-0013）
+- 作業ブランチ作成: `git switch -c <type>/<topic>`
+- コミット: `git add <path>` → `git commit -m "..."`（Conventional Commits）
+- push: `git push -u origin <branch>`
+- リモート同期: `git fetch` / `git pull`
+- リベース: `git rebase main`
+- PR は GitHub で作成（`gh pr create`）、CI は GitHub Actions
 - 開発サーバ起動: `pnpm dev`
 - ビルド: `pnpm build`
 - テスト: `pnpm test`、E2E: `pnpm test:e2e`
@@ -122,5 +121,5 @@ Single-context layout: one `CONTEXT.md` and one `docs/adr/` at the repo root. Se
 - @.claude/rules/stack.md 技術スタック詳細（必要時作成）
 - @.claude/rules/design.md ミニマルデザインガイド（必要時作成）
 - @.claude/rules/infrastructure.md OpenTofu / Cloudflare 構成（必要時作成）
-- @.claude/rules/workflows.md jj / Nix / Bun の使い方（必要時作成）
+- @.claude/rules/workflows.md Git / Nix / pnpm の使い方（必要時作成）
 - @docs/adr/ アーキテクチャ判断記録
