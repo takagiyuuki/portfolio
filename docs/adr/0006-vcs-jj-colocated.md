@@ -1,7 +1,7 @@
 # ADR-0006: VCS - Jujutsu (Colocated)
 
 Date: 2026-05-28
-Status: Accepted
+Status: Superseded by ADR-0013 (2026-08-24)
 Supersedes: ADR-0003
 
 ## Context
