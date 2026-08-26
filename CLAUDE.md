@@ -5,7 +5,8 @@ SRE/Platform Engineer 志望のアピールを兼ねた運用・IaC 重視構成
 
 ## Goals
 
-- 自己紹介、ブログ、自作 Web アプリ・GitHub リポへのリンクを掲載
+- 自己紹介、自作 Web アプリ・GitHub リポ・Zenn 記事へのリンクを掲載
+- アクティビティ Timeline（GitHub/Zenn 等の活動を時系列表示）を優先実装。ブログ一覧ページ（`/writing`）は Zenn 記事数が増えるまで保留
 - SSG（動的処理は将来的に Workers Functions で追加可能)
 - 日英バイリンガル（ページ内併記方式、Astro 公式 i18n は不採用）
 - ミニマルデザイン、ライト/ダーク両対応（OS の prefers-color-scheme
@@ -24,7 +25,7 @@ SRE/Platform Engineer 志望のアピールを兼ねた運用・IaC 重視構成
 - **Framework**: Astro 7.x（React Islands は使用箇所限定）
 - **Language**: TypeScript 5（strict）
 - **CSS**: Tailwind v4（CSS-first config、`@theme` 使用）
-- **Content**: Astro Content Collections + MDX
+- **Content**: ブログ記事は本リポで管理しない（別リポ `takagiyuuki/blog` + Zenn 公開、`/writing` は外部記事の index のみ。Content Collections / MDX は不採用）。ADR-0012 参照
 - **i18n**: Astro 公式 （i18n routing言語切替は JS toggle + localStorage、Top/Aboutのみ対応）
 - **Lint+Format**: Biome 2.x（ESLint/Prettier は使わない）
 - **Test**: Vitest 3 + Playwright
