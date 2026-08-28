@@ -27,7 +27,16 @@
       "!**/pnpm-lock.yaml"
     ]
   },
-  "assist": { "actions": { "source": { "organizeImports": "on" } } },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "html": {
+    "experimentalFullSupportEnabled": true
+  },
   "javascript": {
     "formatter": {
       "quoteStyle": "single"
@@ -38,25 +47,8 @@
       "quoteStyle": "single"
     },
     "parser": {
-      "cssModules": true,
-      "tailwindDirectives": true
+      "cssModules": false,
+      "tailwindDirectives": false
     }
-  },
-  "overrides": [
-    {
-      "includes": ["src/**/*.astro"],
-      "linter": {
-        "rules": {
-          "style": {
-            "useConst": "off",
-            "useImportType": "off"
-          },
-          "correctness": {
-            "noUnusedVariables": "off",
-            "noUnusedImports": "off"
-          }
-        }
-      }
-    }
-  ]
+  }
 }
