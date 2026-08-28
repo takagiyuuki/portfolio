@@ -31,8 +31,8 @@ const year = new Date().getFullYear();
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <title>{fullTitle}</title>
-    <Font cssVariable='--font-inter' preload />
-    <Font cssVariable='--font-noto-jp' preload />
+    <Font cssVariable="--font-inter" preload />
+    <Font cssVariable="--font-noto-jp" preload />
   </head>
   <body>
     <div class="layout">
@@ -40,16 +40,14 @@ const year = new Date().getFullYear();
         <a href="/" class="brand">{site.name}</a>
         <nav aria-label="Primary">
           <ul>
-            {
-            navItems.map((item) => (
+            {navItems.map((item) => (
             <li>
               <a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>
                 <span class="marker" aria-hidden="true" />
                 <span>{item.label}</span>
               </a>
             </li>
-            ))
-            }
+            ))}
           </ul>
         </nav>
       </header>
@@ -58,151 +56,154 @@ const year = new Date().getFullYear();
       </main>
       <footer class="footer">
         <p>© {year} {site.author}</p>
-        <ul><li><a href={site.social.github}
-                   aria-label="GitHub"
-                   target="_blank"
-                   rel="noopener noreferrer">
+        <ul>
+          <li>
+            <a
+              href={site.social.github}
+              aria-label="GitHub"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Icon name="simple-icons:github" />
-              </a>
-            </li>
-            <li>
-              <a
-                href={site.social.linkedin}
-                aria-label="LinkedIn"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Icon name="simple-icons:linkedin" />
-              </a>
-            </li>
-          </ul>
-        </footer>
+            </a>
+          </li>
+          <li>
+            <a
+              href={site.social.linkedin}
+              aria-label="LinkedIn"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Icon name="simple-icons:linkedin" />
+            </a>
+          </li>
+        </ul>
+      </footer>
     </div>
-<style>
-  /* Mobile-first base */
-  .layout {
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 1.5rem 1rem;
-    min-height: 100vh;
-display: grid;
-grid-template-rows: auto 1fr auto;
-gap:2rem;
-  }
-  .header {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  .brand{
-    font-weight: 600;
-    font-size: 1.125rem;
-    color: var(--foreground);
-    text-decoration: none;
+    <style>
+    /* Mobile-first base */
+    .layout {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem;
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 2rem;
+    }
+    .header {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .brand {
+      font-weight: 600;
+      font-size: 1.125rem;
+      color: var(--foreground);
+      text-decoration: none;
+    }
+    nav ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    nav a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--foreground);
+      text-decoration: none;
+    }
+    nav a[aria-current='page'] {
+      color: var(--link);
+    }
+    nav .marker {
+      display: inline-block;
+      width: 0.4rem;
+      height: 0.4rem;
+      border-radius: 50%;
+      background-color: currentColor;
+      visibility: hidden;
+    }
+    nav a[aria-current='page'] .marker {
+      visibility: visible;
+    }
 
-  }
-  nav ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  nav a{
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    color: var(--foreground);
-    text-decoration: none;
-  }
-  nav a[aria-current="page"]{
-color: var(--link);
-  }
-  nav .marker {
-    display: inline-block;
-    width: 0.4rem;
-    height: 0.4rem;
-    border-radius: 50%;
-    background-color: currentColor;
-    visibility: hidden;
-  }
-  nav a[aria-current="page"] .marker {
-          visibility: visible;
-        }
+    nav li,
+    .footer li {
+      margin-block-end: 0;
+    }
 
-  nav li,
-  .footer li {
-    margin-block-end: 0;
-  }
+    .main {
+      min-width: 0;
+    }
 
-        .main {
-          min-width: 0;
-        }
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.875rem;
+      color: var(--foreground);
+      padding-top: 2rem;
+    }
 
-        .footer {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          font-size: 0.875rem;
-          color: var(--foreground);
-          padding-top: 2rem;
-        }
+    .footer ul {
+      display: flex;
+      gap: 0.75rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
 
-        .footer ul {
-          display: flex;
-          gap: 0.75rem;
-          list-style: none;
-          margin: 0;
-          padding: 0;
-        }
+    .footer a {
+      color: var(--foreground);
+      display: inline-flex;
+      align-items: center;
+    }
 
-        .footer a {
-          color: var(--foreground);
-          display: inline-flex;
-          align-items: center;
-        }
+    .footer svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
 
-        .footer svg {
-          width: 1.25rem;
-          height: 1.25rem;
-        }
+    /* PC (>=768px): sidebar layout */
+    @media (min-width: 768px) {
+      .layout {
+        max-width: 900px;
+        padding: 3rem 2rem;
+        grid-template-columns: 180px 1fr;
+        grid-template-rows: auto auto;
+        grid-template-areas:
+          'header main'
+          'footer footer';
+        gap: 0 3rem;
+      }
 
-        /* PC (>=768px): sidebar layout */
-        @media (min-width: 768px) {
-          .layout {
-            max-width: 900px;
-            padding: 3rem 2rem;
-            grid-template-columns: 180px 1fr;
-            grid-template-rows: auto auto;
-            grid-template-areas:
-              'header main'
-              'footer footer';
-            gap: 0 3rem;
-          }
+      .header {
+        grid-area: header;
+        position: sticky;
+        top: 3rem;
+        align-self: start;
+      }
 
-          .header {
-            grid-area: header;
-            position: sticky;
-            top: 3rem;
-            align-self: start;
-          }
+      .main {
+        grid-area: main;
+        max-width: 65ch;
+      }
 
-          .main {
-            grid-area: main;
-            max-width: 65ch;
-          }
+      .footer {
+        grid-area: footer;
+        margin-top: 3rem;
+      }
 
-          .footer {
-            grid-area: footer;
-            margin-top: 3rem;
-          }
-
-          nav ul {
-            flex-direction: column;
-            gap: 0.5rem;
-          }
-        }
-</style> 
+      nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
+    </style>
   </body>
 </html>
