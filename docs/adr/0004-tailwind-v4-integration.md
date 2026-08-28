@@ -2,6 +2,7 @@
 
 Date: 2026-04-27
 Status: Accepted
+Amended by: ADR-0015（`@theme` とユーティリティの不使用）
 
 ## Context
 
