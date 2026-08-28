@@ -24,7 +24,8 @@ SRE/Platform Engineer 志望のアピールを兼ねた運用・IaC 重視構成
 
 - **Framework**: Astro 7.x（React Islands は使用箇所限定）
 - **Language**: TypeScript 5（strict）
-- **CSS**: Tailwind v4（CSS-first config、`@theme` 使用）
+- **CSS**: CSS-first（`:root` トークン + `@layer base` 要素スタイル + Astro scoped CSS）。Tailwind v4 は
+  Preflight とレイヤー順宣言のみに使用し、utility class と `@theme` は使わない。ADR-0004 / ADR-0015 参照
 - **Content**: ブログ記事は本リポで管理しない（別リポ `takagiyuuki/blog` + Zenn 公開、`/writing` は外部記事の index のみ。Content Collections / MDX は不採用）。ADR-0012 参照
 - **i18n**: Astro 公式 （i18n routing言語切替は JS toggle + localStorage、Top/Aboutのみ対応）
 - **Lint+Format**: Biome 2.x（ESLint/Prettier は使わない）
@@ -71,9 +72,10 @@ SRE/Platform Engineer 志望のアピールを兼ねた運用・IaC 重視構成
 - セクション区切り: 罫線ではなく余白で行う
 - 装飾禁止: `border-radius` は原則 0、`box-shadow`、`gradient` は使わない
 - アニメーション: hover 時の色変化・下線変化のみ（duration は 150ms 程度）
-- レイアウト: 左寄せ、最大幅 65ch（本文）、行間は `leading-relaxed`（1.625）
+- レイアウト: 左寄せ、最大幅 65ch（本文）、行間は `--leading-body`（1.625）
 - 文字サイズ: 本文 18px を基準、見出しは控えめな階層
 - ダークモード: `@media (prefers-color-scheme: dark)` で CSS 変数を上書き。JSなし、ユーザートグル UI なし
+- デザイントークンは `src/styles/global.css` の `:root` に集約。コンポーネント側は `var(--foreground)` 等を参照し、色の直値を書かない
 
 詳細は `@.claude/rules/design.md` を参照（必要時に作成）。
 
