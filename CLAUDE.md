@@ -26,7 +26,8 @@ SRE/Platform Engineer 志望のアピールを兼ねた運用・IaC 重視構成
 - **Language**: TypeScript 5（strict）
 - **CSS**: CSS-first（`:root` トークン + `@layer base` 要素スタイル + Astro scoped CSS）。Tailwind v4 は
   Preflight とレイヤー順宣言のみに使用し、utility class と `@theme` は使わない。ADR-0004 / ADR-0015 参照
-- **Content**: ブログ記事は本リポで管理しない（別リポ `takagiyuuki/blog` + Zenn 公開、`/writing` は外部記事の index のみ。Content Collections / MDX は不採用）。ADR-0012 参照
+- **Content**: ブログ記事は本リポで管理しない（別リポ `takagiyuuki/blog` + Zenn 公開、`/writing` は外部記事の index のみ。`src/content/writing/` の
+  MDX collection は作らない）。ADR-0012 参照。これは blog に限った決定であり、Work エントリなど他用途の Content Collections は禁じていない
 - **i18n**: Astro 公式 （i18n routing言語切替は JS toggle + localStorage、Top/Aboutのみ対応）
 - **Lint+Format**: Biome 2.x（ESLint/Prettier は使わない）
 - **Test**: Vitest 3 + Playwright
