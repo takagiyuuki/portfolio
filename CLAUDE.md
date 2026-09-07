@@ -71,8 +71,18 @@ SRE/Platform Engineer 志望のアピールを兼ねた運用・IaC 重視構成
   - ダーク: 通常 `#60a5fa`（blue-400）、hover `#93c5fd`（blue-300）
 - 罫線: 必要箇所のみ細い線。ライト `#e5e5e5`、ダーク `#262626`。構造可視化のための装飾的な罫線は使わない
 - セクション区切り: 罫線ではなく余白で行う
-- 装飾禁止: `border-radius` は原則 0、`box-shadow`、`gradient` は使わない
-- アニメーション: hover 時の色変化・下線変化のみ（duration は 150ms 程度）
+- 装飾（美意識としての方針。妥協・変更してよい）: `border-radius` は原則 0、`box-shadow`、
+  `gradient` は使わない。ミニマル志向の趣味的な選択であり、必要が生じたら見直す
+- アニメーション（性能制約。原則として変更しない）:
+  - **何を動かすか**で判断する。アニメーションの有無や見た目の派手さでは判断しない
+  - 動かしてよいプロパティ: `transform` / `opacity`（コンポジタで処理され、レイアウトも paint も
+    起きない）、および `color` / `text-decoration-*` などレイアウトを伴わないもの
+  - 動かしてはいけないプロパティ: `width` / `height` / `top` / `left` / `margin` など
+    レイアウトを誘発するもの（毎フレーム再レイアウトが走る）
+  - `scroll` イベントリスナーを書かない。追従 UI は `position: sticky`（CSS のみ、JS 不要）、
+    出現・可視判定は `IntersectionObserver` を使う
+  - duration は 150ms 程度を目安にする
+  - `@media (prefers-reduced-motion: reduce)` でアニメーションを無効化する
 - レイアウト: 左寄せ、最大幅 65ch（本文）、行間は `--leading-body`（1.625）
 - 文字サイズ: 本文 18px を基準、見出しは控えめな階層
 - ダークモード: `@media (prefers-color-scheme: dark)` で CSS 変数を上書き。JSなし、ユーザートグル UI なし
