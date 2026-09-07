@@ -4,6 +4,7 @@ import icon from 'astro-icon';
 
 export default defineConfig({
   srcDir: './src',
+  prefetch: { prefetchAll: true, defaultStrategy: 'viewport' },
   vite: {
     plugins: [tailwindcss()],
   },
