@@ -20,7 +20,7 @@ export default defineConfig({
       provider: fontProviders.google(),
       name: 'Noto Sans JP',
       cssVariable: '--font-noto-jp',
-      weights: [400, 500],
+      weights: [400, 600],
     },
   ],
 });
