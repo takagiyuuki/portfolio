@@ -11,9 +11,9 @@ interface Props {
 }
 
 const { title, description = site.description } = Astro.props;
-const fullTitle = `${title} - ${site.name}`;
 
 const navItems = [
+  { href: '/', label: 'Home' },
   { href: '/work/', label: 'Work' },
   { href: '/about/', label: 'About' },
   { href: '/timeline/', label: 'Timeline' },
@@ -23,10 +23,12 @@ const currentPath = Astro.url.pathname;
 const isCurrent = (href: string): boolean => currentPath === href;
 const isHome = currentPath === '/';
 
-// The home page has no page-level heading; every other page defaults to its title.
-const heading = Astro.props.heading ?? (isHome ? undefined : title);
-// Exactly one h1 per page: the brand takes the role when there is no page heading.
-const Brand = heading === undefined ? 'h1' : 'p';
+// The home page is the front door: its title carries the full identity rather
+// than a generic page name.
+const fullTitle = isHome ? `${site.name} — ${site.tagline}` : `${title} - ${site.name}`;
+
+// The brand is icon-only, so every page carries its h1 in <main>.
+const heading = Astro.props.heading ?? title;
 
 const year = new Date().getFullYear();
 ---
@@ -45,12 +47,11 @@ const year = new Date().getFullYear();
   <body>
     <div class="layout">
       <header class="sidebar">
-        <Brand class="brand">
-          <a href="/" class="home" aria-current={isHome ? "page" : undefined}>
+        <p class="brand">
+          <a href="/" class="home" aria-label={site.author}>
             <Icon name="lucide:bird" aria-hidden="true" />
-            <span>{site.author}</span>
           </a>
-        </Brand>
+        </p>
         <nav class="nav" aria-label="Primary">
           <ul>
             {navItems.map((item) => (
@@ -65,7 +66,7 @@ const year = new Date().getFullYear();
         </nav>
       </header>
       <main class="main">
-        {heading && <h1>{heading}</h1>}
+        <h1>{heading}</h1>
         <slot />
       </main>
       <footer class="footer">
@@ -117,6 +118,11 @@ const year = new Date().getFullYear();
       align-items: flex-start;
       gap: 2rem;
       view-transition-name: sidebar;
+
+      /* The desktop brand indent has to line up with the nav marker; bind both
+         to one pair of values so changing the marker cannot desync them. */
+      --marker-size: 0.4rem;
+      --marker-gap: 0.4rem;
     }
 
     .brand {
@@ -128,15 +134,18 @@ const year = new Date().getFullYear();
 
     .home {
       display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
       color: var(--foreground);
       text-decoration: none;
     }
 
     .home svg {
-      width: 1.25em;
-      height: 1.25em;
+      width: 1.75em;
+      height: 1.75em;
+    }
+
+    .home:hover,
+    .home:focus-visible {
+      color: var(--foreground-muted);
     }
 
     .nav ul {
@@ -167,8 +176,8 @@ const year = new Date().getFullYear();
     }
 
     .nav .marker {
-      width: 0.4rem;
-      height: 0.4rem;
+      width: var(--marker-size);
+      height: var(--marker-size);
       border-radius: 50%;
       background-color: currentColor;
       visibility: hidden;
@@ -246,6 +255,11 @@ const year = new Date().getFullYear();
         align-self: start;
       }
 
+      /* Nav labels start past the hidden marker, so indent the brand to match. */
+      .brand {
+        padding-inline-start: calc(var(--marker-size) + var(--marker-gap));
+      }
+
       .main {
         max-width: 65ch;
       }
@@ -261,7 +275,7 @@ const year = new Date().getFullYear();
 
       .nav a {
         flex-direction: row;
-        gap: 0.4rem;
+        gap: var(--marker-gap);
       }
     }
     </style>
