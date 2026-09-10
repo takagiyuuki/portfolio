@@ -3,6 +3,7 @@ import { defineConfig, fontProviders } from 'astro/config';
 import icon from 'astro-icon';
 
 export default defineConfig({
+  site: 'https://yukit.dev',
   srcDir: './src',
   prefetch: { prefetchAll: true, defaultStrategy: 'viewport' },
   vite: {
