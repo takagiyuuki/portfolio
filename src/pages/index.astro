@@ -1,9 +1,9 @@
 ---
 import { site } from '@/config/site';
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Home" heading="yukit.dev">
+<BaseLayout title="Home" heading={site.author}>
   <p>
     このサイトは製作中です。ソースは<a href={`${site.social.github}/portfolio`}>GitHub</a>
     にあります。
