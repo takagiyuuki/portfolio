@@ -1,5 +1,32 @@
 @import 'tailwindcss';
 
+/*
+ * Every navigation tears down the document and builds it again, so the header
+ * is rebuilt on each page load. Browsers hold the old paint for a moment to
+ * cover that, but not all of them do it well - on iOS Chrome the rebuild
+ * shows. A cross-fade covers the swap with no client-side router involved.
+ * Browsers without cross-document support navigate as before.
+ */
+@view-transition {
+  navigation: auto;
+}
+
+/* House duration - the UA default is 250ms */
+::view-transition-group(*),
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: 150ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    /* biome-ignore lint/complexity/noImportantStyles: named view transition pseudo-elements outrank (*) on specificity, so this opt-out must win regardless of source order */
+    animation: none !important;
+  }
+}
+
 :root {
   /* color */
   color-scheme: light dark;
