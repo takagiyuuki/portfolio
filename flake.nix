@@ -26,6 +26,9 @@
             pnpm
             act
             actionlint
+            # Icon generation: SVG -> PNG (librsvg), PNG -> ICO (imagemagick)
+            librsvg
+            imagemagick
           ];
 
           shellHook = ''

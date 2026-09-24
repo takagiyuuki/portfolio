@@ -52,6 +52,8 @@ const year = new Date().getFullYear();
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content="en_US" />
+    <link rel="icon" href="/logo.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <Font cssVariable="--font-inter" preload />
     <Font cssVariable="--font-noto-jp" />
   </head>
@@ -60,7 +62,7 @@ const year = new Date().getFullYear();
       <header class="sidebar">
         <p class="brand">
           <a href="/" class="home" aria-label={site.author}>
-            <Icon name="lucide:bird" aria-hidden="true" />
+            <img src="/logo.svg" alt="" width="45" height="45" />
           </a>
         </p>
         <nav class="nav" aria-label="Primary">
@@ -138,25 +140,23 @@ const year = new Date().getFullYear();
 
     .brand {
       margin: 0;
-      font-size: var(--text-brand);
-      font-weight: 600;
-      line-height: 1.3;
+      display: flex;
     }
 
     .home {
-      display: inline-flex;
-      color: var(--foreground);
-      text-decoration: none;
+      display: block;
     }
 
-    .home svg {
-      width: 1.75em;
-      height: 1.75em;
+    .home img {
+      display: block;
+      width: 2.7rem;
+      height: 2.7rem;
+      transition: opacity 150ms;
     }
 
-    .home:hover,
-    .home:focus-visible {
-      color: var(--foreground-muted);
+    .home:hover img,
+    .home:focus-visible img {
+      opacity: 0.7;
     }
 
     .nav ul {
