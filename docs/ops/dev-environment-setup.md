@@ -5,7 +5,8 @@ Order matters: the Nix devShell must load first, otherwise `node`/`pnpm` are mis
 
 ## Prerequisites (installed outside the Nix flake)
 
-The flake devShell only provides `node`, `pnpm`, `act`, `actionlint`.
+The flake devShell only provides `node`, `pnpm`, `act`, `actionlint`, `rsvg-convert` (librsvg)
+and `magick` (imagemagick).
 These must be installed on the machine separately:
 
 - Nix (flakes enabled) + direnv + nix-direnv
@@ -21,8 +22,12 @@ Install Nix + direnv + nix-direnv, then from the repo root:
 direnv allow
 ```
 
-This evaluates `flake.nix` and puts `node 24` / `pnpm` / `act` / `actionlint` on PATH.
+This evaluates `flake.nix` and puts `node 24` / `pnpm` / `act` / `actionlint` /
+`rsvg-convert` / `magick` on PATH.
 Nothing below works until this succeeds.
+
+The two image tools are only needed when regenerating site icons or the Open Graph card;
+see `site-icons.md`.
 
 ## 2. Secrets & auth
 
