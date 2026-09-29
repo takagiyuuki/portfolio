@@ -15,8 +15,8 @@ pre-commit:
 pre-push:
   parallel: false
   commands:
-    precheck:
-      run: pnpm precheck
+    verify:
+      run: pnpm verify
 commit-msg:
   commands:
     conventional:
