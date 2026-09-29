@@ -14,7 +14,7 @@
     "test:e2e": "playwright test",
     "format": "biome check --write .",
     "renovate:validate": "npm_config_ignore_scripts=true pnpm dlx --package renovate renovate-config-validator --strict",
-    "precheck": "pnpm lint && pnpm typecheck && pnpm build && pnpm test && actionlint"
+    "verify": "pnpm lint && pnpm typecheck && pnpm build && pnpm test && actionlint"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
