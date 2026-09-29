@@ -1,0 +1,137 @@
+---
+import { site } from '@/config/site';
+
+const navItems = [
+  { href: '/', label: 'Home' },
+  { href: '/work/', label: 'Work' },
+  { href: '/about/', label: 'About' },
+  { href: '/timeline/', label: 'Timeline' },
+] as const;
+
+const currentPath = Astro.url.pathname;
+const isCurrent = (href: string): boolean => currentPath === href;
+---
+
+<header>
+  <p class="brand">
+    <a href="/" class="home" aria-label={site.author}>
+      <img src="/logo.svg" alt="" width="45" height="45" />
+    </a>
+  </p>
+  <nav class="nav" aria-label="Primary">
+    <ul>
+      {navItems.map((item) => (
+            <li>
+              <a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>
+                <span class="marker" aria-hidden="true" />
+                <span>{item.label}</span>
+              </a>
+            </li>
+            ))}
+    </ul>
+  </nav>
+</header>
+
+<style>
+header {
+  grid-area: sidebar;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+  view-transition-name: sidebar;
+
+  /* The desktop brand indent has to line up with the nav marker; bind both
+         to one pair of values so changing the marker cannot desync them. */
+  --marker-size: 0.4rem;
+  --marker-gap: 0.4rem;
+}
+
+.brand {
+  margin: 0;
+  display: flex;
+}
+
+.home {
+  display: block;
+}
+
+.home img {
+  display: block;
+  width: 2.7rem;
+  height: 2.7rem;
+  transition: opacity 150ms;
+}
+
+.home:hover img,
+.home:focus-visible img {
+  opacity: 0.7;
+}
+
+.nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  margin-block-end: 0;
+}
+
+nav a {
+  display: inline-flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: var(--text-nav);
+  color: var(--foreground-muted);
+  text-decoration: none;
+}
+
+nav a:hover {
+  color: var(--foreground);
+}
+
+nav a[aria-current='page'] {
+  color: var(--link);
+}
+
+.marker {
+  width: var(--marker-size);
+  height: var(--marker-size);
+  border-radius: 50%;
+  background-color: currentColor;
+  visibility: hidden;
+}
+
+nav a[aria-current='page'] .marker {
+  visibility: visible;
+}
+
+@media (min-width: 768px) {
+  header {
+    gap: 2.5rem;
+    position: sticky;
+    top: 4rem;
+    align-self: start;
+  }
+
+  /* Nav labels start past the hidden marker, so indent the brand to match. */
+  .brand {
+    padding-inline-start: calc(var(--marker-size) + var(--marker-gap));
+  }
+
+  .nav ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  nav a {
+    flex-direction: row;
+    gap: var(--marker-gap);
+  }
+}
+</style>
