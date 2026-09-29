@@ -1,112 +1,34 @@
 ---
 import '@/styles/global.css';
-import { Font } from 'astro:assets';
-import { Icon } from 'astro-icon/components';
-import { site } from '@/config/site';
 
-interface Props {
-  title: string;
+import Footer from '@/components/Footer.astro';
+import Meta from '@/components/Meta.astro';
+import Sidebar from '@/components/Sidebar.astro';
+
+import type { PageMeta } from '@/types/page';
+
+interface Props extends PageMeta {
+  /** Defaults to title. The brand is icon-only, so h1 lives in <main>. */
   heading?: string;
-  description?: string;
 }
 
-const { title, description = site.description } = Astro.props;
-
-const navItems = [
-  { href: '/', label: 'Home' },
-  { href: '/work/', label: 'Work' },
-  { href: '/about/', label: 'About' },
-  { href: '/timeline/', label: 'Timeline' },
-] as const;
-
-const currentPath = Astro.url.pathname;
-const isCurrent = (href: string): boolean => currentPath === href;
-const isHome = currentPath === '/';
-
-// The home page is the front door: its title carries the full identity rather
-// than a generic page name.
-const fullTitle = isHome ? `${site.name} — ${site.tagline}` : `${title} - ${site.name}`;
-
-// Canonical and Open Graph need absolute URLs. Astro.site comes from
-// astro.config.ts; without it this throws, which is the failure we want.
-const canonical = new URL(Astro.url.pathname, Astro.site).href;
-
 // The brand is icon-only, so every page carries its h1 in <main>.
-const heading = Astro.props.heading ?? title;
-
-const year = new Date().getFullYear();
+const { title, heading = title, description } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="color-scheme" content="light dark" />
-    <meta name="description" content={description} />
-    <title>{fullTitle}</title>
-    <link rel="canonical" href={canonical} />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content={site.name} />
-    <meta property="og:title" content={fullTitle} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
-    <meta property="og:locale" content="en_US" />
-    <link rel="icon" href="/logo.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <Font cssVariable="--font-inter" preload />
-    <Font cssVariable="--font-noto-jp" />
+    <Meta {title} {description} />
   </head>
   <body>
     <div class="layout">
-      <header class="sidebar">
-        <p class="brand">
-          <a href="/" class="home" aria-label={site.author}>
-            <img src="/logo.svg" alt="" width="45" height="45" />
-          </a>
-        </p>
-        <nav class="nav" aria-label="Primary">
-          <ul>
-            {navItems.map((item) => (
-            <li>
-              <a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>
-                <span class="marker" aria-hidden="true" />
-                <span>{item.label}</span>
-              </a>
-            </li>
-            ))}
-          </ul>
-        </nav>
-      </header>
+      <Sidebar />
       <main class="main">
         <h1>{heading}</h1>
         <slot />
       </main>
-      <footer class="footer">
-        <p>© {year} {site.author}</p>
-        <ul>
-          <li>
-            <a
-              href={site.social.github}
-              aria-label="GitHub"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Icon name="simple-icons:github" />
-            </a>
-          </li>
-          <li>
-            <a
-              href={site.social.linkedin}
-              aria-label="LinkedIn"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Icon name="simple-icons:linkedin" />
-            </a>
-          </li>
-        </ul>
-      </footer>
+      <Footer />
     </div>
     <style>
     /* Mobile-first: single column, sidebar collapses to a top bar */
@@ -124,125 +46,9 @@ const year = new Date().getFullYear();
       gap: 2.5rem;
     }
 
-    .sidebar {
-      grid-area: sidebar;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 2rem;
-      view-transition-name: sidebar;
-
-      /* The desktop brand indent has to line up with the nav marker; bind both
-         to one pair of values so changing the marker cannot desync them. */
-      --marker-size: 0.4rem;
-      --marker-gap: 0.4rem;
-    }
-
-    .brand {
-      margin: 0;
-      display: flex;
-    }
-
-    .home {
-      display: block;
-    }
-
-    .home img {
-      display: block;
-      width: 2.7rem;
-      height: 2.7rem;
-      transition: opacity 150ms;
-    }
-
-    .home:hover img,
-    .home:focus-visible img {
-      opacity: 0.7;
-    }
-
-    .nav ul {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    .nav a {
-      display: inline-flex;
-      flex-direction: column-reverse;
-      align-items: center;
-      gap: 0.25rem;
-      font-size: var(--text-nav);
-      color: var(--foreground-muted);
-      text-decoration: none;
-    }
-
-    .nav a:hover {
-      color: var(--foreground);
-    }
-
-    .nav a[aria-current='page'] {
-      color: var(--link);
-    }
-
-    .nav .marker {
-      width: var(--marker-size);
-      height: var(--marker-size);
-      border-radius: 50%;
-      background-color: currentColor;
-      visibility: hidden;
-    }
-
-    .nav a[aria-current='page'] .marker {
-      visibility: visible;
-    }
-
-    .nav li,
-    .footer li {
-      margin-block-end: 0;
-    }
-
     .main {
       grid-area: main;
       min-width: 0;
-    }
-
-    .footer {
-      grid-area: footer;
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      font-size: var(--text-small);
-      color: var(--foreground-muted);
-      margin-block-start: 2rem;
-    }
-
-    .footer p {
-      margin: 0;
-    }
-
-    .footer ul {
-      display: flex;
-      gap: 0.75rem;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    .footer a {
-      color: var(--foreground-muted);
-      display: inline-flex;
-      text-decoration: none;
-    }
-
-    .footer a:hover {
-      color: var(--foreground);
-    }
-
-    .footer svg {
-      width: 1em;
-      height: 1em;
     }
 
     /* Desktop: sidebar on the left, spanning main and footer rows */
@@ -259,34 +65,8 @@ const year = new Date().getFullYear();
         row-gap: 0;
       }
 
-      .sidebar {
-        gap: 2.5rem;
-        position: sticky;
-        top: 4rem;
-        align-self: start;
-      }
-
-      /* Nav labels start past the hidden marker, so indent the brand to match. */
-      .brand {
-        padding-inline-start: calc(var(--marker-size) + var(--marker-gap));
-      }
-
       .main {
         max-width: 65ch;
-      }
-
-      .footer {
-        margin-block-start: 6rem;
-      }
-
-      .nav ul {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-
-      .nav a {
-        flex-direction: row;
-        gap: var(--marker-gap);
       }
     }
     </style>

@@ -1,0 +1,36 @@
+---
+import { Font } from 'astro:assets';
+import { site } from '@/config/site';
+import type { PageMeta } from '@/types/page';
+
+interface Props extends PageMeta {}
+
+const { title, description = site.description } = Astro.props;
+const currentPath = Astro.url.pathname;
+const isHome = currentPath === '/';
+
+// The home page is the front door: its title carries the full identity rather
+// than a generic page name.
+const fullTitle = isHome ? `${site.name} — ${site.tagline}` : `${title} - ${site.name}`;
+
+// Canonical and Open Graph need absolute URLs. Astro.site comes from
+// astro.config.ts; without it this throws, which is the failure we want.
+const canonical = new URL(currentPath, Astro.site).href;
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="color-scheme" content="light dark" />
+<meta name="description" content={description} />
+<title>{fullTitle}</title>
+<link rel="canonical" href={canonical} />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:locale" content="en_US" />
+<link rel="icon" href="/logo.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<Font cssVariable="--font-inter" preload />
+<Font cssVariable="--font-noto-jp" />
