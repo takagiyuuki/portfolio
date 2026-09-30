@@ -14,20 +14,20 @@ const isCurrent = (href: string): boolean => currentPath === href;
 
 <header>
   <p class="brand">
-    <a href="/" class="home" aria-label={site.author}>
-      <img src="/logo.svg" alt="" width="45" height="45" />
+    <a href="/" class="home">
+      <img src="/logo.svg" alt={site.author} width="45" height="45" />
     </a>
   </p>
   <nav class="nav" aria-label="Primary">
     <ul>
       {navItems.map((item) => (
-            <li>
-              <a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>
-                <span class="marker" aria-hidden="true" />
-                <span>{item.label}</span>
-              </a>
-            </li>
-            ))}
+  <li>
+    <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+      <span class="marker" aria-hidden="true" />
+      <span>{item.label}</span>
+    </a>
+  </li>
+))}
     </ul>
   </nav>
 </header>
