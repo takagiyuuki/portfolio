@@ -6,9 +6,12 @@ SRE/Platform Engineer 志望のアピールを兼ねた運用・IaC 重視構成
 ## Goals
 
 - 自己紹介、自作 Web アプリ・GitHub リポ・Zenn 記事へのリンクを掲載
+- ページ構成は `/`（自己紹介 + Timeline ダイジェスト）/ `/en/` / `/work/` / `/timeline/` の 4 枚。
+  `/about/` は `/` に統合済み。nav は Home / Work / Timeline。ADR-0017 参照
 - アクティビティ Timeline（GitHub/Zenn 等の活動を時系列表示）を優先実装。ブログ一覧ページ（`/writing`）は Zenn 記事数が増えるまで保留
 - SSG（動的処理は将来的に Workers Functions で追加可能)
-- 日英バイリンガル（ページ内併記方式、Astro 公式 i18n は不採用）
+- 日英バイリンガル（URL 分離。`/` = 日本語、`/en/` = 英語。併記・トグル・Astro 公式 i18n は
+  いずれも不採用）。ADR-0018 参照
 - ミニマルデザイン、ライト/ダーク両対応（OS の prefers-color-scheme
   に追従、ユーザートグル UI は置かない）
 - インフラ運用・IaC・CI/CD の品質で技術アピール
@@ -28,7 +31,10 @@ SRE/Platform Engineer 志望のアピールを兼ねた運用・IaC 重視構成
   Preflight とレイヤー順宣言のみに使用し、utility class と `@theme` は使わない。ADR-0004 / ADR-0015 参照
 - **Content**: ブログ記事は本リポで管理しない（別リポ `takagiyuuki/blog` + Zenn 公開、`/writing` は外部記事の index のみ。`src/content/writing/` の
   MDX collection は作らない）。ADR-0012 参照。これは blog に限った決定であり、Work エントリなど他用途の Content Collections は禁じていない
-- **i18n**: Astro 公式 （i18n routing言語切替は JS toggle + localStorage、Top/Aboutのみ対応）
+- **i18n**: URL 分離（`src/pages/en/` を素のファイルルーティングで置く）。Astro 公式 i18n の統合
+  機能・設定は使わない（SSG では `Astro.preferredLocale` が使えず、翻訳対象が `/` の 1 枚のみで
+  fallback routing の価値も発生しないため）。JS トグルも localStorage も使わない。
+  言語リンクは各ページの `<h1>` 直後に置く。ADR-0018 参照
 - **Lint+Format**: Biome 2.x（ESLint/Prettier は使わない）
 - **Test**: Vitest 3 + Playwright
 - **Git Hooks**: lefthook（Husky 不使用）
