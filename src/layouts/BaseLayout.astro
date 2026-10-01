@@ -10,20 +10,30 @@ import type { PageMeta } from '@/types/page';
 interface Props extends PageMeta {
   /** Defaults to title. The brand is icon-only, so h1 lives in <main>. */
   heading?: string;
+  /** Where the brand and the nav's Home entry point. /en/ is its own front door. */
+  homeHref?: string;
 }
 
 // The brand is icon-only, so every page carries its h1 in <main>.
-const { title, heading = title, description } = Astro.props;
+const {
+  title,
+  heading = title,
+  description,
+  lang = 'en',
+  alternate,
+  isFrontDoor,
+  homeHref = '/',
+} = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
-    <Meta {title} {description} />
+    <Meta {title} {description} {lang} {alternate} {isFrontDoor} />
   </head>
   <body>
     <div class="layout">
-      <Sidebar />
+      <Sidebar {homeHref} />
       <main class="main">
         <h1>{heading}</h1>
         <slot />
