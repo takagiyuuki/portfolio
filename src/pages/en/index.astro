@@ -1,0 +1,17 @@
+---
+import { languageAlternates, site } from '@/config/site';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Home"
+  heading={site.author}
+  description="Portfolio site, work in progress."
+  lang="en"
+  alternate={languageAlternates}
+  homeHref="/en/"
+  isFrontDoor
+>
+  <p><a href="/" lang="ja" hreflang="ja">日本語で読む →</a></p>
+  <p>Work in progress; source on <a href={`${site.social.github}/portfolio`}>GitHub</a>.</p>
+</BaseLayout>

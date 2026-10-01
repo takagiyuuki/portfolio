@@ -1,13 +1,19 @@
 ---
-import { site } from '@/config/site';
+import { languageAlternates, site } from '@/config/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Home" heading={site.author} isFrontDoor>
+<BaseLayout
+  title="Home"
+  heading={site.author}
+  description="制作中のポートフォリオサイトです。"
+  lang="ja"
+  alternate={languageAlternates}
+  isFrontDoor
+>
+  <p><a href="/en/" lang="en" hreflang="en">Read this in English →</a></p>
   <p>
     このサイトは製作中です。ソースは<a href={`${site.social.github}/portfolio`}>GitHub</a>
     にあります。
-    <br />
-    Work in progress; source on GitHub.
   </p>
 </BaseLayout>
