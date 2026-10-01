@@ -5,17 +5,30 @@ import type { PageMeta } from '@/types/page';
 
 interface Props extends PageMeta {}
 
-const { title, description = site.description } = Astro.props;
-const currentPath = Astro.url.pathname;
-const isHome = currentPath === '/';
+type AlternateLink = { hreflang: 'en' | 'ja' | 'x-default'; href: string };
 
-// The home page is the front door: its title carries the full identity rather
-// than a generic page name.
-const fullTitle = isHome ? `${site.name} — ${site.tagline}` : `${title} - ${site.name}`;
+const { title, description = site.description, lang = 'en', alternate, isFrontDoor } = Astro.props;
 
-// Canonical and Open Graph need absolute URLs. Astro.site comes from
-// astro.config.ts; without it this throws, which is the failure we want.
-const canonical = new URL(currentPath, Astro.site).href;
+const ogLocale = { en: 'en_US', ja: 'ja_JP' } as const;
+
+// The front door carries the full identity rather than a generic page name.
+const fullTitle = isFrontDoor ? `${site.name} — ${site.tagline}` : `${title} - ${site.name}`;
+
+// Canonical, Open Graph and hreflang all need absolute URLs. Astro.site comes
+// from astro.config.ts; without it this throws, which is the failure we want.
+const absolute = (path: string): string => new URL(path, Astro.site).href;
+
+const canonical = absolute(Astro.url.pathname);
+
+// Search engines discard hreflang unless the translations point back at each
+// other, so a translated page emits the whole set rather than just its peer.
+// x-default lands on English: it answers visitors whose language matches
+// neither alternate, and English reaches more of them than Japanese does.
+const english = alternate?.find((entry) => entry.hreflang === 'en');
+const alternateLinks: AlternateLink[] = [
+  ...(alternate ?? []).map((entry) => ({ hreflang: entry.hreflang, href: absolute(entry.href) })),
+  ...(english ? [{ hreflang: 'x-default' as const, href: absolute(english.href) }] : []),
+];
 ---
 
 <meta charset="UTF-8" />
@@ -24,12 +37,13 @@ const canonical = new URL(currentPath, Astro.site).href;
 <meta name="description" content={description} />
 <title>{fullTitle}</title>
 <link rel="canonical" href={canonical} />
+{alternateLinks.map((link) => <link rel="alternate" hreflang={link.hreflang} href={link.href} />)}
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content={site.name} />
 <meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />
-<meta property="og:locale" content="en_US" />
+<meta property="og:locale" content={ogLocale[lang]} />
 <link rel="icon" href="/logo.svg" type="image/svg+xml" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <Font cssVariable="--font-inter" preload />

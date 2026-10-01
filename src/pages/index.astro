@@ -3,7 +3,7 @@ import { site } from '@/config/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Home" heading={site.author}>
+<BaseLayout title="Home" heading={site.author} isFrontDoor>
   <p>
     このサイトは製作中です。ソースは<a href={`${site.social.github}/portfolio`}>GitHub</a>
     にあります。

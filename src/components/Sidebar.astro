@@ -1,12 +1,18 @@
 ---
 import { site } from '@/config/site';
 
+interface Props {
+  /** Where the brand and the Home entry point. /en/ is its own front door. */
+  homeHref?: string;
+}
+
+const { homeHref = '/' } = Astro.props;
+
 const navItems = [
-  { href: '/', label: 'Home' },
+  { href: homeHref, label: 'Home' },
   { href: '/work/', label: 'Work' },
-  { href: '/about/', label: 'About' },
   { href: '/timeline/', label: 'Timeline' },
-] as const;
+];
 
 const currentPath = Astro.url.pathname;
 const isCurrent = (href: string): boolean => currentPath === href;
@@ -14,7 +20,7 @@ const isCurrent = (href: string): boolean => currentPath === href;
 
 <header>
   <p class="brand">
-    <a href="/" class="home">
+    <a href={homeHref} class="home">
       <img src="/logo.svg" alt={site.author} width="45" height="45" />
     </a>
   </p>
