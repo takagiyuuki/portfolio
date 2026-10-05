@@ -88,7 +88,20 @@ SRE/Platform Engineer 志望のアピールを兼ねた運用・IaC 重視構成
   - `scroll` イベントリスナーを書かない。追従 UI は `position: sticky`（CSS のみ、JS 不要）、
     出現・可視判定は `IntersectionObserver` を使う
   - duration は 150ms 程度を目安にする
-  - `@media (prefers-reduced-motion: reduce)` でアニメーションを無効化する
+- `prefers-reduced-motion`（アクセシビリティ制約。上記の性能制約とは**別の話**）:
+  - この設定が対象とするのは**位置やサイズが変わる動き**。前庭障害・片頭痛・てんかんの引き金に
+    なるのはパララックス、ズーム、スライドイン、自動カルーセル、スクロール連動の移動といった
+    変位である。機序は乗り物酔いと同じで、目が「動いている」と報告し内耳が報告しないという
+    矛盾から不快感が生じる。数時間続く吐き気になり得るため、好みではなくアクセシビリティの問題
+  - `color` / `opacity` / `text-decoration-*` のホバーフィードバックは**対象外**。変位がない。
+    MDN は dissolve（フェード）を動きの安全な代替手段として推奨しており、消す方が意図から外れる
+  - **動きを伴うアニメーションは `@media (prefers-reduced-motion: no-preference)` の中で宣言する**
+    （opt-in）。`*` に `!important` で一括 opt-out する方式は採らない。理由は 2 つ:
+    - `reduce` の利用者には宣言ごと適用されないため、打ち消しの書き忘れが構造的に起こらない
+    - reveal 系で `opacity: 0` を常時適用すると、JS が失敗した場合にコンテンツが永久に見えない。
+      opt-in なら初期状態が通常表示になる
+  - ページ遷移の view transition は対象に含める。`view-transition-name` を付けた要素はページ間で
+    morph されるため、`position: sticky` のサイドバーのように位置が変わり得る（ADR-0016 参照）
 - レイアウト: 左寄せ、最大幅 65ch（本文）、行間は `--leading-body`（1.625）
 - 文字サイズ: 本文 18px を基準、見出しは控えめな階層
 - ダークモード: `@media (prefers-color-scheme: dark)` で CSS 変数を上書き。JSなし、ユーザートグル UI なし
