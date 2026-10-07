@@ -18,6 +18,14 @@ export default defineConfig({
       weights: [400, 600],
       subsets: ['latin'],
     },
+    // Site chrome only - nav and footer. Latin-only face.
+    {
+      provider: fontProviders.google(),
+      name: 'VT323',
+      cssVariable: '--font-vt323',
+      subsets: ['latin'],
+      styles: ['normal'],
+    },
     {
       provider: fontProviders.google(),
       name: 'Noto Sans JP',

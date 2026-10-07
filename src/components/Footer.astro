@@ -6,7 +6,6 @@ const year = new Date().getFullYear();
 ---
 
 <footer>
-  <p>© {year} {site.author}</p>
   <ul>
     <li>
       <a href={site.social.github} aria-label="GitHub" target="_blank" rel="noopener noreferrer">
@@ -24,6 +23,7 @@ const year = new Date().getFullYear();
       </a>
     </li>
   </ul>
+  <p>© {year} {site.author}</p>
 </footer>
 <style>
 /* Selector is the element; the value is the grid area named by the layout.
@@ -31,9 +31,14 @@ const year = new Date().getFullYear();
 footer {
   grid-area: footer;
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  font-size: var(--text-small);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-family: var(--font-chrome);
+  font-size: var(--text-footer);
+  line-height: var(--leading-chrome);
+  letter-spacing: var(--tracking-chrome);
+  text-transform: uppercase;
   color: var(--foreground-muted);
   margin-block-start: 2rem;
 }
@@ -56,7 +61,7 @@ li {
 }
 
 a {
-  color: var(--foreground-muted);
+  color: var(--social-icon);
   display: inline-flex;
   text-decoration: none;
 }
@@ -66,8 +71,9 @@ a:hover {
 }
 
 svg {
-  width: 1em;
-  height: 1em;
+  /* 24px makes each icon a 24 x 24 target on its own (WCAG 2.5.8). */
+  width: var(--size-icon);
+  height: var(--size-icon);
 }
 
 @media (min-width: 768px) {
