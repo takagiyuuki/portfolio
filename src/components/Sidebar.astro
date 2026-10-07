@@ -47,8 +47,15 @@ header {
   gap: 2rem;
   view-transition-name: sidebar;
 
-  /* The desktop brand indent has to line up with the nav marker; bind both
-         to one pair of values so changing the marker cannot desync them. */
+  /* One font context for the whole chrome surface, so the brand's hidden '>'
+    spacer below resolves to exactly the width of the nav marker. */
+  font-family: var(--font-chrome);
+  font-size: var(--text-nav);
+  line-height: var(--leading-chrome);
+  letter-spacing: var(--tracking-chrome);
+  text-transform: uppercase;
+
+  --logo-size: 2.7rem;
   --marker-size: 0.4rem;
   --marker-gap: 0.4rem;
 }
@@ -64,8 +71,8 @@ header {
 
 .home img {
   display: block;
-  width: 2.7rem;
-  height: 2.7rem;
+  width: var(--logo-size);
+  height: var(--logo-size);
   transition: opacity 150ms;
 }
 
@@ -92,7 +99,6 @@ nav a {
   flex-direction: column-reverse;
   align-items: center;
   gap: 0.25rem;
-  font-size: var(--text-nav);
   color: var(--foreground-muted);
   text-decoration: none;
 }
@@ -119,25 +125,47 @@ nav a[aria-current='page'] .marker {
 
 @media (min-width: 768px) {
   header {
-    gap: 2.5rem;
+    /* The first nav label lands on the first paragraph's line in <main>: the h1
+   line box plus its bottom margin, less the logo that sits above the nav.
+    max() keeps the gap sane if a future mark is taller than the h1 block. */
+    gap: max(
+      1rem,
+      calc(var(--text-h1) * var(--leading-heading) + var(--space-h1) - var(--logo-size))
+    );
     position: sticky;
     top: 4rem;
     align-self: start;
   }
 
-  /* Nav labels start past the hidden marker, so indent the brand to match. */
-  .brand {
-    padding-inline-start: calc(var(--marker-size) + var(--marker-gap));
+  /* The brand lines up with the nav labels by reserving the same glyph in the
+   same font, rather than by recomputing its width. */
+  .brand::before {
+    content: '>';
+    visibility: hidden;
+    margin-inline-end: var(--marker-gap);
   }
 
   .nav ul {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: var(--gap-nav);
   }
 
   nav a {
     flex-direction: row;
     gap: var(--marker-gap);
+  }
+
+  /* A prompt only reads as one inline, and the mobile marker sits below the
+   label, so the dot stays there and the glyph is desktop-only. */
+  .marker {
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    background-color: transparent;
+  }
+
+  .marker::before {
+    content: '>';
   }
 }
 </style>
