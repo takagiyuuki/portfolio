@@ -53,7 +53,8 @@ vite.config.ts.timestamp-*
 .direnv/
 
 # Claude Code
-.claude/
+.claude/*
+!.claude/rules/
 CLAUDE.local.md
 CLAUDE*.local.md
 
