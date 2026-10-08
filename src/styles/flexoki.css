@@ -1,0 +1,19 @@
+/*
+ * Flexoki by Steph Ango - https://stephango.com/flexoki (MIT)
+ *
+ * Only the values this site uses are copied. Add more from the palette as
+ * needed; role assignments live in global.css (ADR-0020, ADR-0021).
+ */
+:root {
+  --flexoki-paper: #fffcf0;
+  --flexoki-black: #100f0f;
+
+  --flexoki-base-200: #cecdc3;
+  --flexoki-base-500: #878580;
+  --flexoki-base-600: #6f6e69;
+
+  --flexoki-cyan-50: #ddf1e4;
+  --flexoki-cyan-400: #3aa99f;
+  --flexoki-cyan-700: #1c6c66;
+  --flexoki-cyan-950: #101f1d;
+}
