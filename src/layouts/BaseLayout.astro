@@ -59,6 +59,7 @@ const {
     .main {
       grid-area: main;
       min-width: 0;
+      max-width: 65ch;
     }
 
     /* Desktop: sidebar on the left, spanning main and footer rows */
@@ -73,10 +74,6 @@ const {
         grid-template-rows: 1fr auto;
         column-gap: 4.5rem;
         row-gap: 0;
-      }
-
-      .main {
-        max-width: 65ch;
       }
     }
     </style>
