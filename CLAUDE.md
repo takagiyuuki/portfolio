@@ -111,6 +111,7 @@ Single-context layout: one `CONTEXT.md` and one `docs/adr/` at the repo root. Se
 
 - @.claude/rules/stack.md 技術スタック詳細（必要時作成）
 - .claude/rules/design.md デザインルール（自動で読み込まれる）
+- .claude/rules/adr.md ADR の書き方と書く時期（自動で読み込まれる）
 - @.claude/rules/infrastructure.md OpenTofu / Cloudflare 構成（必要時作成）
 - @.claude/rules/workflows.md Git / Nix / pnpm の使い方（必要時作成）
 - @docs/adr/ アーキテクチャ判断記録
