@@ -1,9 +1,14 @@
 import { z } from 'astro/zod';
+import { githubContributionSource } from '@/lib/timeline/sources/github/contributions';
 import { githubRepoSource } from '@/lib/timeline/sources/github/repos';
 import { manualSource } from '@/lib/timeline/sources/manual';
 import type { TimelineEntry, TimelineSource } from '@/lib/timeline/types';
 
-const defaultSources: readonly TimelineSource[] = [manualSource, githubRepoSource];
+const defaultSources: readonly TimelineSource[] = [
+  manualSource,
+  githubRepoSource,
+  githubContributionSource,
+];
 
 const isoDate = z.iso.date();
 
