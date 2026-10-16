@@ -1,4 +1,4 @@
-export type TimelineKind = 'article' | 'repo' | 'milestone';
+export type TimelineKind = 'article' | 'repo' | 'contribution' | 'stats' | 'milestone';
 
 /** YYYY-MM-DD. Rejects month-only dates at compile time; not a full validator. */
 export type IsoDate = `${number}-${number}-${number}`;
