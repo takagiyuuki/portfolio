@@ -86,6 +86,9 @@
 
 @layer base {
   html {
+    /* Reserve the scrollbar's width on every page, so pages that scroll
+    and pages that don't share the same centre line */
+    scrollbar-gutter: stable;
     font-family: var(--font-body);
     font-size: var(--text-body);
     line-height: var(--leading-body);
