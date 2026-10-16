@@ -2,6 +2,7 @@
 
 Date: 2026-09-30
 Status: Accepted
+Amended by: ADR-0022（Work のデータは Content Collection ではなく型付きの TS モジュール）
 
 ## Context
 
@@ -279,7 +280,7 @@ GitHub は既に英語の文脈である（リポジトリ名・コミットメ�
 - **#20（S19 About final content）は `/` と `/en/` の 2 枚を書く作業に変わる。** 現行 AC は
   トグル前提なので書き換えが必要。ADR-0017 により #18（Home content）とも統合される
 - **#94（S23 Timeline）** に `TimelineEntry.lang` の追加が必要
-- **#19（S18 Work）は変更なし。** Content Collection のまま
+- **#19（S18 Work）は変更なし。** Content Collection のまま（→ ADR-0022 で `src/data/work.ts` の型付きモジュールに変更）
 - **PRD #1 の決定 10**（「English-first、JS+localStorage トグル、Home と About のみ」）を
   本 ADR で置き換える
 - `CLAUDE.md` の Goals・Stack 両方の i18n 記述を修正する（矛盾も解消）

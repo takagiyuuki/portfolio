@@ -13,13 +13,14 @@
 | 用途 | トークン | 書体 | ウェイト | サブセット |
 | --- | --- | --- | --- | --- |
 | 本文・見出し | `--font-body` | Inter → Noto Sans JP → `system-ui` → `sans-serif` | 400 / 600 | latin |
-| chrome（nav・footer） | `--font-chrome` | VT323 → `monospace` | 400 のみ | latin |
+| chrome（nav・footer）、tech タグ | `--font-chrome` | VT323 → `monospace` | 400 のみ | latin |
 
 - ウェイトは 400（本文）と 600（見出し・`strong`）の 2 つだけ。増やすときは `astro.config.ts` の宣言も変える
-- chrome の書体と本文の書体を混ぜない。`<h1>` も本文側（ADR-0019）
-- chrome のテキストは latin だけにする。VT323 に CJK のグリフは無く、1 文字ごとに Noto Sans JP に
-  フォールバックする。chrome に日本語を足す変更は ADR-0019 の再検討を伴う
-- chrome は `text-transform: uppercase`。VT323 は小文字の背が低く、視認性が落ちるため
+- VT323 を使うのは chrome と Work の tech タグだけ。散文・見出し・`<h1>` は本文側（ADR-0019、ADR-0024）
+- VT323 のテキストは latin だけにする。VT323 に CJK のグリフは無く、1 文字ごとに Noto Sans JP に
+  フォールバックする。chrome やタグに日本語を足す変更は ADR-0019 の再検討を伴う
+- VT323 のテキストは `text-transform: uppercase`。VT323 は小文字の背が低く、視認性が落ちるため。
+  表示だけが変わり、DOM の表記（`TypeScript` など）は読み上げとコピーに残る
 - Noto Sans JP の `subsets` は指定しない（Astro の既定は `latin`）。Google の CJK は名前の無い
   `unicode-range` スライスで配信されるため、`subsets` では絞れない。latin の文字は Inter が先に
   引き受けるので、Noto の latin スライスは取得されない
@@ -40,7 +41,8 @@
 ### 単位
 
 - 本文側（`--font-body` の要素）は `rem`。root は `--text-body`（18px）
-- chrome 側（`--font-chrome` の要素）は**整数 px**。`font-size` も `letter-spacing` も整数にする。
+- chrome 側（`--font-chrome` の要素。tech タグを含む）は**整数 px**。`font-size` も `letter-spacing` も
+  整数にし、タグの `padding` も px で書く。
   VT323 はビットマップ由来で、16.875px のような非整数だと 1px のステムがにじむ。
   `rem` で書くと root 18px との掛け算で非整数になるため使わない
 
@@ -49,9 +51,15 @@
 | 要素 | トークン | サイズ | 行間 |
 | --- | --- | --- | --- |
 | 本文 | `--text-body` | 1.125rem（18px） | `--leading-body` 1.625 |
+| 小さめの本文（Work の説明文） | `--text-small` | 1rem（16px） | `--leading-body` 1.625 |
 | h1 / h2 / h3 | `--text-h1` / `-h2` / `-h3` | 1.75 / 1.5 / 1.25rem | `--leading-heading` 1.3 |
 | nav | `--text-nav` | 24px | `--leading-chrome` 1.2 |
 | footer | `--text-footer` | 22px | `--leading-chrome` 1.2 |
+| tech タグ | `--text-tag` | 18px | `--leading-chrome` 1.2 |
+
+- Work のエントリの見出しは `<h2>` のまま、サイズだけ `--text-h3` にする。一覧の 1 項目の見出しに
+  h2 の既定サイズは大きすぎるため。見出しの階層はサイズのために変えない
+- tech タグの 18px は VT323 の cap 7.2px にあたる。これより小さくすると潰れやすいので下限とする
 
 - chrome の字間は `--tracking-chrome`（1px）
 - nav / footer の `font-size` は本文の 18px より大きいが、cap-height の実寸は本文より小さい
@@ -88,8 +96,14 @@ ADR-0021（トークンの構造と hover）を参照。
 | `--color-text-muted` | 控えめな文字 | `base-600` | `base-500` | 4.97 / 5.19（対 bg） |
 | `--color-accent` | リンク、現在地 | `cyan-700` | `cyan-400` | 6.03 / 6.70（対 bg） |
 | `--color-selection` | 選択の背景 | `cyan-50` | `cyan-950` | 16.20 / 10.64（その上の本文） |
+| `--color-border` | 内容の区切りの罫線 | `base-100` | `base-900` | 1.24 / 1.28（対 bg。文字ではない） |
+| `--color-tag-text` | tech タグの文字 | `purple-600` | `purple-400` | 6.56 / 5.00（対 tag bg） |
+| `--color-tag-bg` | tech タグの背景 | `purple-50` | `purple-950` | — |
 
 ライトの accent は Flexoki 公式の `cyan-600` ではなく `cyan-700`（600 は対 paper 4.43 で AA を下回る）。
+
+`--color-border` は Flexoki の `ui`。`--color-tag-*` は Flexoki が UI の役割を割り当てていない
+アクセントの `pu`（ADR-0024）。`bl` はリンクを表す慣習の色で cyan のリンクと混同されるので使わない。
 
 ### 要素と色
 
@@ -103,6 +117,10 @@ ADR-0021（トークンの構造と hover）を参照。
 | footer のアイコン | `--color-text-muted` |
 | 選択（`::selection`） | 背景 `--color-selection`。文字色は変えない |
 | `strong` / `em` | 色を付けない（太さと斜体だけ） |
+| Work のエントリ間の区切り線 | `--color-border`。エントリの「間」にだけ引き、面や枠では囲まない |
+| Work の説明文 | `--color-text-muted` |
+| tech タグ | 文字 `--color-tag-text`、背景 `--color-tag-bg`、枠線なし |
+| 本文リンクの ↗ と、リンク内のブランドアイコン | リンクの色に従う（`currentColor`） |
 
 本文リンクの下線は、位置（`text-underline-offset`）も太さ（`text-decoration-thickness`）も指定しない。
 Inter が持つ推奨値（18px で太さ約 1.23px、ベースラインの約 3.1px 下）を使い、g / q などの
@@ -115,7 +133,7 @@ Inter が持つ推奨値（18px で太さ約 1.23px、ベースラインの約 3
 
 | 要素 | 追加するトークン | Flexoki の役割 | ライト | ダーク |
 | --- | --- | --- | --- | --- |
-| `table` / `hr` / `blockquote` の罫線 | `--color-border` | `ui` | `base-100` | `base-900` |
+| `table` / `hr` / `blockquote` の罫線 | `--color-border`（追加済み） | `ui` | `base-100` | `base-900` |
 | `code` / `pre` の背景 | `--color-bg-subtle` | `bg-2` | `base-50` | `base-950` |
 | `mark` の背景 | `--color-highlight` | `highlight` | `yellow-100` | 未確認 |
 | コードの構文の色 | なし | — | Shiki のテーマで付ける（Flexoki の VS Code テーマを使う想定。未検証） | |
@@ -123,6 +141,7 @@ Inter が持つ推奨値（18px で太さ約 1.23px、ベースラインの約 3
 注意:
 
 - `--color-text-muted` を `--color-bg-subtle` の上に置くと、ライトで 4.47 になり AA を下回る
+- `--color-text-muted` を `--color-tag-bg` の上に置くと 4.01 / 4.04 になり AA を下回る。タグの文字は `--color-tag-text`
 - Flexoki 公式の `tx-3`（faint text）は読ませる文字に使わない。ライトの `base-300` は対 paper 2.00
 
 ### hover
@@ -149,15 +168,23 @@ Inter が持つ推奨値（18px で太さ約 1.23px、ベースラインの約 3
 
 - `box-shadow` と `gradient` は使わない
 - `border-radius` は 0。例外は形そのものが円である要素（モバイルの current マーカーのドット）
-- 罫線は内容の区切りに必要な箇所だけに、細い線で引く（`table` / `hr` / `blockquote` など）。
+- 罫線は内容の区切りに必要な箇所だけに、細い線で引く（`table` / `hr` / `blockquote`、Work のエントリ間など）。
   レイアウトの構造を見せるための罫線は引かない。色は「色」の節の `--color-border`
+- 一覧の項目を面（`bg-2`）や枠線で囲んでカードにしない。Flexoki の罫線は文章になじむ強さで、
+  面の輪郭には薄く、`bg-2` の面は本文の中で浮く。項目の間に区切り線を引く（ADR-0024）
+- 押せない領域に hover の変化を付けない。押せるように見えてしまう（ADR-0024）
 
 ### アセット
 
-- SVG はインクの外接矩形ちょうどで書き出す（viewBox に余白を含めない）。余白はレイアウト側で取る。
+- **自作の** SVG はインクの外接矩形ちょうどで書き出す（viewBox に余白を含めない）。余白はレイアウト側で取る。
   アセットの余白をレイアウト側で打ち消すと、アセットを差し替えたときに補正値が嘘になる（ADR-0019）
+- 外部のアイコンセット（Lucide、simple-icons）はそのまま使い、viewBox の余白を受け入れる。
+  形を描き直さない（ADR-0023）
 - ソーシャルアイコンは simple-icons の形をそのまま使う。形を描き直したもの（ピクセル版など）は使わない。
   ロゴの改変は各社のブランドガイドラインが最も強く禁じている（ADR-0019）
+- 文字に並べるアイコン（↗、リンク内の GitHub マーク）は `display: inline` を指定する。
+  Tailwind の Preflight が `svg` を `display: block` にするため（ADR-0023）
+- ↗ は文字（U+2197）で書かない。Inter の latin サブセットに含まれず、矢印だけ Noto Sans JP で描かれる（ADR-0023）
 
 ## アニメーション
 

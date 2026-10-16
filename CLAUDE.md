@@ -30,7 +30,8 @@ SRE/Platform Engineer 志望のアピールを兼ねた運用・IaC 重視構成
 - **CSS**: CSS-first（`:root` トークン + `@layer base` 要素スタイル + Astro scoped CSS）。Tailwind v4 は
   Preflight とレイヤー順宣言のみに使用し、utility class と `@theme` は使わない。ADR-0004 / ADR-0015 参照
 - **Content**: ブログ記事は本リポで管理しない（別リポ `takagiyuuki/blog` + Zenn 公開、`/writing` は外部記事の index のみ。`src/content/writing/` の
-  MDX collection は作らない）。ADR-0012 参照。これは blog に限った決定であり、Work エントリなど他用途の Content Collections は禁じていない
+  MDX collection は作らない）。ADR-0012 参照。Work エントリのような本文を持たない手書きデータは
+  `src/data/*.ts` の型付きモジュールに置く。本文を持つ文書に Content Collection を使うことは妨げない。ADR-0022 参照
 - **i18n**: URL 分離（`src/pages/en/` を素のファイルルーティングで置く）。Astro 公式 i18n の統合
   機能・設定は使わない（SSG では `Astro.preferredLocale` が使えず、翻訳対象が `/` の 1 枚のみで
   fallback routing の価値も発生しないため）。JS トグルも localStorage も使わない。
