@@ -20,12 +20,18 @@ export const work: readonly [WorkEntry, ...WorkEntry[]] = [
     description: 'My portfolio site.',
     tech: ['Astro', 'TypeScript', 'Cloudflare Workers', 'Terraform', 'GitHub Actions'],
     repo: `${github}/portfolio`,
-    live: 'https://yukit.dev',
   },
   {
     title: 'dotfiles',
     description: 'My dotfiles.',
     tech: ['Nix', 'Home Manager', 'NixOS-WSL', 'Neovim', 'GitHub Actions'],
     repo: `${github}/dotfiles`,
+  },
+  {
+    title: 'claude-userscripts',
+    description:
+      'Swaps the send/newline keys on claude.ai and skips the Enter that commits an IME composition.',
+    tech: ['Tampermonkey', 'userscripts', 'JavaScript'],
+    repo: `${github}/claude-userscripts`,
   },
 ];

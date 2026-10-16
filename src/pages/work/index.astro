@@ -1,11 +1,117 @@
 ---
+import { Icon } from 'astro-icon/components';
+import ExternalLink from '@/components/ExternalLink.astro';
+import { work } from '@/data/work';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const description = 'Projects and experiments.';
 ---
 
-<BaseLayout title="Work" description="Personal projects and repositories.">
-  <p>
-    自作の Web アプリと GitHub リポジトリを掲載予定です。
-    <br />
-    Coming soon: self-built web apps and repositories.
-  </p>
+<BaseLayout title="Work" {description}>
+  <p>{description}</p>
+  <ul class="entries">
+    {work.map((entry) => (
+  <li class="entry">
+    <article>
+      <h2>
+        {entry.live ? <ExternalLink href={entry.live}>{entry.title}</ExternalLink> : entry.title}
+      </h2>
+      <p class="description">{entry.description}</p>
+      <ul class="tech" aria-label="Tech stack">
+        {entry.tech.map((name) => (
+          <li>{name}</li>
+        ))}
+      </ul>
+      <ul class="links">
+        <li>
+          <ExternalLink href={entry.repo}>
+            <Icon name="simple-icons:github" class="brand" aria-hidden="true" />
+            Source code
+          </ExternalLink>
+        </li>
+        {entry.article && (
+          <li>
+            <ExternalLink href={entry.article}>Read the article</ExternalLink>
+          </li>
+        )}
+      </ul>
+    </article>
+  </li>
+))}
+  </ul>
 </BaseLayout>
+
+<style>
+.entries,
+.tech,
+.links {
+  list-style: none;
+  padding-inline-start: 0;
+}
+
+.entries {
+  display: grid;
+  gap: 2.5rem;
+}
+
+.entry {
+  margin-block-end: 0;
+}
+
+/* A rule between entries, not around them: the gap sits above it, the padding below */
+.entry + .entry {
+  padding-block-start: 2.5rem;
+  border-block-start: 1px solid var(--color-border);
+}
+
+/* The list gap spaces the entries */
+article h2 {
+  margin-block-start: 0;
+  font-size: var(--text-h3);
+}
+
+.description {
+  font-size: var(--text-small);
+  color: var(--color-text-muted);
+}
+
+.tech,
+.links {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tech li,
+.links li {
+  margin-block-end: 0;
+}
+
+.tech {
+  gap: 0.5rem;
+}
+
+/* VT323 tags: integer px only, or the bitmap-derived stems blur (ADR-0019) */
+.tech li {
+  padding: 0 6px;
+  font-family: var(--font-chrome);
+  font-size: var(--text-tag);
+  line-height: var(--leading-chrome);
+  letter-spacing: var(--tracking-chrome);
+  text-transform: uppercase;
+  color: var(--color-tag-text);
+  background-color: var(--color-tag-bg);
+}
+
+.links {
+  gap: 0.5rem 1.25rem;
+}
+
+/* Leading brand mark inside the link text. Preflight makes svg a block. */
+.brand {
+  display: inline;
+  vertical-align: middle;
+  width: var(--size-icon);
+  height: var(--size-icon);
+  margin-inline-end: 0.3em;
+}
+</style>

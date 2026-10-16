@@ -8,12 +8,21 @@
   --flexoki-paper: #fffcf0;
   --flexoki-black: #100f0f;
 
+  --flexoki-base-50: #f2f0e5;
+  --flexoki-base-100: #e6e4d9;
   --flexoki-base-200: #cecdc3;
   --flexoki-base-500: #878580;
   --flexoki-base-600: #6f6e69;
+  --flexoki-base-900: #282726;
+  --flexoki-base-950: #1c1b1a;
 
   --flexoki-cyan-50: #ddf1e4;
   --flexoki-cyan-400: #3aa99f;
   --flexoki-cyan-700: #1c6c66;
   --flexoki-cyan-950: #101f1d;
+
+  --flexoki-purple-50: #f0eaec;
+  --flexoki-purple-400: #8b7ec8;
+  --flexoki-purple-600: #5e409d;
+  --flexoki-purple-950: #1a1623;
 }

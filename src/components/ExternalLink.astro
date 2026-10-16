@@ -1,0 +1,36 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  href: string;
+}
+
+const { href } = Astro.props;
+---
+
+<a {href} target="_blank" rel="noopener">
+  <slot /><Icon name="lucide:arrow-up-right" aria-hidden="true" />
+  <span class="visually-hidden">{' (opens in new tab)'}</span>
+</a>
+
+<style>
+svg {
+  /* Preflight sets svg to display: block and vertical-align: middle */
+  display: inline;
+  vertical-align: baseline;
+  width: var(--size-icon-inline);
+  height: var(--size-icon-inline);
+  margin-inline-start: 0.2em;
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+</style>
