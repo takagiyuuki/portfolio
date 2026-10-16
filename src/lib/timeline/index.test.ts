@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { getTimeline, loadTimeline } from '@/lib/timeline';
+import { manualSource } from '@/lib/timeline/sources/manual';
 import type { IsoDate, TimelineEntry, TimelineSource } from '@/lib/timeline/types';
 
 function entry(source: string, key: string, date: IsoDate): TimelineEntry {
@@ -21,6 +22,7 @@ function failing(name: string, required: boolean): TimelineSource {
 }
 
 afterEach(() => {
+  vi.unstubAllGlobals();
   vi.restoreAllMocks();
 });
 
@@ -46,7 +48,7 @@ describe('loadTimeline', () => {
   });
 
   it('accepts the hand-written data', async () => {
-    await expect(loadTimeline()).resolves.toBeInstanceOf(Array);
+    await expect(loadTimeline([manualSource])).resolves.toBeInstanceOf(Array);
   });
 });
 
@@ -105,7 +107,15 @@ describe('a required source', () => {
 });
 
 describe('getTimeline', () => {
-  it('loads once and hands every caller the same list', () => {
-    expect(getTimeline()).toBe(getTimeline());
+  it('loads once and hands every caller the same list', async () => {
+    // getTimeline always reads the registered sources; keep them off the network.
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => Response.error()),
+    );
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const first = getTimeline();
+    expect(first).toBe(getTimeline());
+    await first;
   });
 });
