@@ -69,3 +69,11 @@ export async function loadTimeline(
   const perSource = await Promise.all(sources.map(loadSource));
   return perSource.flat().sort(newestFirst);
 }
+
+let cached: Promise<TimelineEntry[]> | undefined;
+
+/** The page entry point. Loads once per build so every page shows the same list. */
+export function getTimeline(): Promise<TimelineEntry[]> {
+  cached ??= loadTimeline();
+  return cached;
+}
