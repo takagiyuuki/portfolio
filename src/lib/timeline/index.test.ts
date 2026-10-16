@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { loadTimeline } from '@/lib/timeline';
+import { getTimeline, loadTimeline } from '@/lib/timeline';
 import type { IsoDate, TimelineEntry, TimelineSource } from '@/lib/timeline/types';
 
 function entry(source: string, key: string, date: IsoDate): TimelineEntry {
@@ -101,5 +101,11 @@ describe('a required source', () => {
     },
   ])('fails the build on $name and names the entry', async ({ entries, message }) => {
     await expect(loadTimeline([source('manual', true, entries)])).rejects.toThrow(message);
+  });
+});
+
+describe('getTimeline', () => {
+  it('loads once and hands every caller the same list', () => {
+    expect(getTimeline()).toBe(getTimeline());
   });
 });
