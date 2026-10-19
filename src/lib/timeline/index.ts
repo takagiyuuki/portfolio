@@ -3,6 +3,7 @@ import { githubContributionSource } from '@/lib/timeline/sources/github/contribu
 import { githubRepoSource } from '@/lib/timeline/sources/github/repos';
 import { githubStatsSource } from '@/lib/timeline/sources/github/stats';
 import { manualSource } from '@/lib/timeline/sources/manual';
+import { zennSource } from '@/lib/timeline/sources/zenn';
 import type { TimelineEntry, TimelineSource } from '@/lib/timeline/types';
 
 const defaultSources: readonly TimelineSource[] = [
@@ -10,6 +11,7 @@ const defaultSources: readonly TimelineSource[] = [
   githubRepoSource,
   githubContributionSource,
   githubStatsSource,
+  zennSource,
 ];
 
 const isoDate = z.iso.date();
