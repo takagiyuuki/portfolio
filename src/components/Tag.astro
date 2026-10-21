@@ -1,0 +1,25 @@
+---
+interface Props {
+  /** For a tag whose language differs from the page around it. */
+  lang?: 'en' | 'ja';
+}
+
+const { lang } = Astro.props;
+---
+
+<span class="tag" {lang}><slot /></span>
+
+<style>
+/* VT323: integer px only, or the bitmap-derived stems blur (ADR-0019) */
+.tag {
+  display: inline-block;
+  padding: 0 6px;
+  font-family: var(--font-chrome);
+  font-size: var(--text-tag);
+  line-height: var(--leading-chrome);
+  letter-spacing: var(--tracking-chrome);
+  text-transform: uppercase;
+  color: var(--color-tag-text);
+  background-color: var(--color-tag-bg);
+}
+</style>
