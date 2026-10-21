@@ -1,11 +1,11 @@
 ---
+import Timeline from '@/components/Timeline.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Timeline" description="Activity timeline from GitHub and Zenn.">
-  <p>
-    GitHub、ZennでのTimelineを掲載予定です。
-    <br />
-    Coming soon: an activity timeline from GitHub and Zenn.
-  </p>
+<BaseLayout
+  title="Timeline"
+  description="Monthly GitHub activity, with the repositories, contributions, and articles along the way."
+>
+  <Timeline />
 </BaseLayout>

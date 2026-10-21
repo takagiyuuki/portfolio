@@ -1,0 +1,399 @@
+---
+import { Icon } from 'astro-icon/components';
+import ExternalLink from '@/components/ExternalLink.astro';
+import Tag from '@/components/Tag.astro';
+import { getTimeline } from '@/lib/timeline';
+import { groupByMonth, takeUntilEvents } from '@/lib/timeline/group';
+import type { TimelineKind } from '@/lib/timeline/types';
+
+interface Props {
+  /** Show the newest months until this many events have appeared, then cut the trunk short. */
+  digest?: number;
+}
+
+const { digest } = Astro.props;
+
+// A Record over every kind, so a new kind without a label fails the type check
+const labels: Record<TimelineKind, string> = {
+  article: 'Article',
+  repo: 'Repository',
+  contribution: 'Contribution',
+  stats: 'Activity',
+  milestone: 'Milestone',
+};
+
+/** Brand marks for the sources that have one. Hand-written entries have none. */
+const sourceIcons: Record<string, { name: string; label: string } | undefined> = {
+  'github-repo': { name: 'simple-icons:github', label: 'GitHub' },
+  'github-contribution': { name: 'simple-icons:github', label: 'GitHub' },
+  zenn: { name: 'simple-icons:zenn', label: 'Zenn' },
+};
+
+const allMonths = groupByMonth(await getTimeline());
+const months = digest === undefined ? allMonths : takeUntilEvents(allMonths, digest);
+const cut = months.length < allMonths.length;
+
+const monthName = new Intl.DateTimeFormat('en-US', {
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+
+// Geometry in px. The CSS reads it through define:vars and the SVG paths are built from it,
+// so a change here moves the nodes and the curves together.
+const node = 14; // ring diameter, trunk and branch alike
+const rail = 3; // trunk width, and the ring's border
+const inset = 36; // trunk node to the month text
+const lane = 10; // month text to the branch nodes
+const gap = 12; // month head to the first event
+const headLine = 36; // the month name's line; the trunk node sits on its middle
+const countLine = 26; // the count's own line, when it drops below the month name
+const meta = 32; // an event's date row; the branch node sits on its middle
+
+// The fork's SVG starts 1px left of the trunk's centre, so the trunk centre is x = 1 in it.
+// (6, 5) is the ring's edge at 45 degrees down-right: the curve leaves along the radius.
+const forkEnd = inset + lane - 1 + 1; // the branch node's centre, in the same coordinates
+
+const forkHeight = (head: number) => head - headLine / 2 + gap + meta / 2;
+
+// Wide: one S-curve from the node straight into the lane
+const wideHeight = forkHeight(headLine);
+const forkWide = {
+  width: forkEnd + 1,
+  height: wideHeight,
+  d: `M 6 5 C 23 22, ${forkEnd} ${wideHeight * 0.375}, ${forkEnd} ${wideHeight}`,
+};
+
+// Narrow: the count sits under the month name, so the branch first runs down beside the
+// trunk, clear of the text, and only turns once it is below the month head
+const narrowHeight = forkHeight(headLine + countLine);
+const below = headLine / 2 + countLine; // the head's bottom edge, in the fork's coordinates
+const forkNarrow = {
+  width: forkEnd + 1,
+  height: narrowHeight,
+  d: `M 6 5 Q 10 9, 10 14 V ${below} C 10 ${below + 18}, ${forkEnd} ${below + 8}, ${forkEnd} ${narrowHeight}`,
+};
+
+// The cut: dashes that shorten while the gaps widen, so the trunk fades out
+const tailLengths = [16, 11, 8, 6, 4, 3, 3];
+const tailGaps = [3, 4, 5, 6, 8, 10];
+const tail: { y: number; length: number }[] = [];
+let tailHeight = 4;
+for (const [i, length] of tailLengths.entries()) {
+  tail.push({ y: tailHeight, length });
+  tailHeight += length + (tailGaps[i] ?? 0);
+}
+---
+
+{months.length > 0 && (
+  <div class="timeline" data-cut={cut ? '' : undefined}>
+    <ol class="months">
+      {months.map((month) => (
+        <li class="month">
+          <span class="node" aria-hidden="true"></span>
+          {month.events.length > 0 && (
+            <Fragment>
+              <svg
+                class="fork fork-narrow"
+                width={forkNarrow.width}
+                height={forkNarrow.height}
+                aria-hidden="true"
+              >
+                <path d={forkNarrow.d} />
+              </svg>
+              <svg
+                class="fork fork-wide"
+                width={forkWide.width}
+                height={forkWide.height}
+                aria-hidden="true"
+              >
+                <path d={forkWide.d} />
+              </svg>
+            </Fragment>
+          )}
+          <div class="head" lang="en">
+            <time class="month-name" datetime={month.month}>
+              {monthName.format(new Date(`${month.month}-01T00:00:00Z`))}
+            </time>
+            {month.stats?.count !== undefined && (
+              <span class="count">
+                <strong>{month.stats.count.toLocaleString('en-US')}</strong> contributions
+              </span>
+            )}
+          </div>
+          {month.events.length > 0 && (
+            <ol class="events">
+              {month.events.map((entry, i) => {
+                const source = sourceIcons[entry.source];
+                return (
+                  <li class="event" lang={entry.lang}>
+                    <span class="node" aria-hidden="true"></span>
+                    {i < month.events.length - 1 && (
+                      <svg class="lane" aria-hidden="true">
+                        <line x1="1" y1="0" x2="1" y2="100%" />
+                      </svg>
+                    )}
+                    <div class="meta">
+                      <time class="date" datetime={entry.date}>
+                        {entry.date}
+                      </time>
+                      <Tag lang="en">{labels[entry.kind]}</Tag>
+                      {source && <Icon name={source.name} title={source.label} class="source" />}
+                    </div>
+                    <p class="title">
+                      {entry.url ? (
+                        <ExternalLink href={entry.url}>{entry.title}</ExternalLink>
+                      ) : (
+                        entry.title
+                      )}
+                    </p>
+                    {entry.detail && <p class="detail">{entry.detail}</p>}
+                  </li>
+                );
+              })}
+            </ol>
+          )}
+        </li>
+      ))}
+    </ol>
+    {cut && (
+      <p class="more">
+        <svg class="tail" width={rail} height={tailHeight} aria-hidden="true">
+          {tail.map((dash) => (
+            <rect x="0" y={dash.y} width={rail} height={dash.length} />
+          ))}
+        </svg>
+        <a href="/timeline/" lang="en" aria-label="More activity">
+          &gt;&gt; more
+        </a>
+      </p>
+    )}
+  </div>
+)}
+
+<style
+  define:vars={{
+  node: `${node}px`,
+  rail: `${rail}px`,
+  inset: `${inset}px`,
+  lane: `${lane}px`,
+  gap: `${gap}px`,
+  headLine: `${headLine}px`,
+  countLine: `${countLine}px`,
+  meta: `${meta}px`,
+  tail: `${tailHeight}px`,
+}}
+>
+.months,
+.events {
+  list-style: none;
+  padding-inline-start: 0;
+  margin-block-end: 0;
+}
+
+li {
+  margin-block-end: 0;
+}
+
+/* Trunk: each month draws its own stretch of rail, so the rail is one line down the list */
+.month {
+  position: relative;
+  padding-inline-start: var(--inset);
+  padding-block-end: 18px;
+}
+
+.month::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: calc((var(--node) - var(--rail)) / 2);
+  top: 0;
+  bottom: 0;
+  width: var(--rail);
+  background-color: var(--color-graph-mark);
+}
+
+.month:first-child::before {
+  top: calc(var(--headLine) / 2);
+}
+
+/* Without a cut the rail stops at the last month's node */
+.timeline:not([data-cut]) .month:last-child::before {
+  bottom: auto;
+  height: calc(var(--headLine) / 2);
+}
+
+/* A ring, filled with the page colour so the rail reads as passing behind it */
+.node {
+  position: absolute;
+  z-index: 2;
+  inset-inline-start: 0;
+  width: var(--node);
+  height: var(--node);
+  border: var(--rail) solid;
+  border-radius: 50%;
+  background-color: var(--color-bg);
+}
+
+.month > .node {
+  top: calc((var(--headLine) - var(--node)) / 2);
+  border-color: var(--color-graph-mark);
+}
+
+.event > .node {
+  top: calc((var(--meta) - var(--node)) / 2);
+  border-color: var(--color-text-muted);
+}
+
+/* Narrow screens: the count drops below the month name, always, so the fork's height is known */
+.head {
+  display: flex;
+  flex-direction: column;
+}
+
+.month-name {
+  font-weight: 600;
+  line-height: var(--headLine);
+}
+
+/* VT323: integer px only (ADR-0019) */
+.count,
+.date,
+.more a {
+  font-family: var(--font-chrome);
+  font-size: var(--text-timeline);
+  letter-spacing: var(--tracking-chrome);
+  text-transform: uppercase;
+}
+
+.count {
+  line-height: var(--countLine);
+  color: var(--color-text-muted);
+}
+
+.count strong {
+  font-weight: 400;
+  color: var(--color-text);
+}
+
+/* Branch: dashed, in the muted colour of the dates and details beside it */
+.fork {
+  position: absolute;
+  z-index: 1;
+  inset-inline-start: calc(var(--node) / 2 - 1px);
+  top: calc(var(--headLine) / 2);
+  overflow: visible;
+}
+
+.fork-wide {
+  display: none;
+}
+
+.fork path,
+.lane line {
+  fill: none;
+  stroke: var(--color-text-muted);
+  stroke-width: 2;
+  stroke-dasharray: 5 4;
+}
+
+.events {
+  margin-block-start: var(--gap);
+  padding-inline-start: var(--lane);
+}
+
+.event {
+  position: relative;
+  padding-inline-start: calc(var(--node) + 10px);
+  padding-block-end: 14px;
+}
+
+.event:last-child {
+  padding-block-end: 0;
+}
+
+/* An svg ignores top + bottom for its height, so it is set outright:
+   down by the event's own height lands on the next event's node */
+.lane {
+  position: absolute;
+  z-index: 1;
+  inset-inline-start: calc(var(--node) / 2 - 1px);
+  top: calc(var(--meta) / 2);
+  width: 2px;
+  height: 100%;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 0.75rem;
+  min-height: var(--meta);
+}
+
+.date {
+  /* One meta row tall, so the branch node stays level with the date even when the row wraps */
+  line-height: var(--meta);
+  white-space: nowrap;
+  color: var(--color-text-muted);
+}
+
+/* The source sits at the row's far right, one column for every event */
+.source {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-inline-start: auto;
+  color: var(--color-text-muted);
+}
+
+.title,
+.detail {
+  margin-block-end: 0;
+}
+
+.detail {
+  font-size: var(--text-small);
+  color: var(--color-text-muted);
+}
+
+/* The cut: the rail fades out in shortening dashes, then the link */
+.more {
+  position: relative;
+  margin-block-end: 0;
+  padding-inline-start: var(--inset);
+  padding-block-start: calc(var(--tail) + 4px);
+}
+
+.tail {
+  position: absolute;
+  inset-inline-start: calc((var(--node) - var(--rail)) / 2);
+  top: 0;
+}
+
+.tail rect {
+  fill: var(--color-graph-mark);
+}
+
+.more a {
+  line-height: var(--leading-chrome);
+  text-decoration: none;
+}
+
+@media (min-width: 600px) {
+  .head {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 1rem;
+    height: var(--headLine);
+  }
+
+  .fork-narrow {
+    display: none;
+  }
+
+  .fork-wide {
+    display: block;
+  }
+}
+</style>
