@@ -2,6 +2,7 @@
 
 Date: 2026-09-30
 Status: Accepted
+Amended by: ADR-0026（Home は `limit={6}` ではなく `digest={3}` で切り詰める）
 
 ## Context
 
@@ -40,6 +41,8 @@ nav は Home / Work / Timeline の 3 つになる。
 <Timeline limit={6} />   <!-- / と /en/ -->
 <Timeline />             <!-- /timeline/ -->
 ```
+
+> ADR-0026 で `<Timeline digest={3} />` に置き換えた。
 
 ソースレジストリ（#94 の `TimelineSource`）とデータモデルは変更しない。
 
