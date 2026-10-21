@@ -2,7 +2,7 @@
 
 Date: 2026-10-07
 Status: Accepted
-Amended by: ADR-0023（外部アイコンセットの余白の扱い）、ADR-0024（VT323 を tech タグにも使う）
+Amended by: ADR-0023（外部アイコンセットの余白の扱い）、ADR-0024（VT323 を tech タグにも使う）、ADR-0026（VT323 を Timeline の日付・件数にも使う）
 
 ## Context
 
