@@ -13,10 +13,11 @@
 | 用途 | トークン | 書体 | ウェイト | サブセット |
 | --- | --- | --- | --- | --- |
 | 本文・見出し | `--font-body` | Inter → Noto Sans JP → `system-ui` → `sans-serif` | 400 / 600 | latin |
-| chrome（nav・footer）、tech タグ | `--font-chrome` | VT323 → `monospace` | 400 のみ | latin |
+| chrome（nav・footer）、タグ、Timeline の日付と件数 | `--font-chrome` | VT323 → `monospace` | 400 のみ | latin |
 
 - ウェイトは 400（本文）と 600（見出し・`strong`）の 2 つだけ。増やすときは `astro.config.ts` の宣言も変える
-- VT323 を使うのは chrome と Work の tech タグだけ。散文・見出し・`<h1>` は本文側（ADR-0019、ADR-0024）
+- VT323 を使うのは chrome、タグ（Work の tech、Timeline の種類）、Timeline の日付・件数・`>> MORE` だけ。
+  散文・見出し・`<h1>`・Timeline の月名とタイトルは本文側（ADR-0019、ADR-0024、ADR-0026）
 - VT323 のテキストは latin だけにする。VT323 に CJK のグリフは無く、1 文字ごとに Noto Sans JP に
   フォールバックする。chrome やタグに日本語を足す変更は ADR-0019 の再検討を伴う
 - VT323 のテキストは `text-transform: uppercase`。VT323 は小文字の背が低く、視認性が落ちるため。
@@ -56,10 +57,12 @@
 | nav | `--text-nav` | 24px | `--leading-chrome` 1.2 |
 | footer | `--text-footer` | 22px | `--leading-chrome` 1.2 |
 | tech タグ | `--text-tag` | 18px | `--leading-chrome` 1.2 |
+| Timeline の日付・件数・MORE | `--text-timeline` | 22px | `--leading-chrome` 1.2 |
 
 - Work のエントリの見出しは `<h2>` のまま、サイズだけ `--text-h3` にする。一覧の 1 項目の見出しに
   h2 の既定サイズは大きすぎるため。見出しの階層はサイズのために変えない
 - tech タグの 18px は VT323 の cap 7.2px にあたる。これより小さくすると潰れやすいので下限とする
+- Timeline の日付は 22px（cap 8.8px、16px の Inter とほぼ同じ）。18px では数字が潰れる（ADR-0026）
 
 - chrome の字間は `--tracking-chrome`（1px）
 - nav / footer の `font-size` は本文の 18px より大きいが、cap-height の実寸は本文より小さい
@@ -102,6 +105,7 @@ ADR-0021（トークンの構造と hover）を参照。
 | `--color-border` | 内容の区切りの罫線 | `base-100` | `base-900` | 1.24 / 1.28（対 bg。文字ではない） |
 | `--color-tag-text` | tech タグの文字 | `purple-600` | `purple-400` | 6.56 / 5.00（対 tag bg） |
 | `--color-tag-bg` | tech タグの背景 | `purple-50` | `purple-950` | — |
+| `--color-graph-mark` | Timeline の本線とそのノード | `purple-600` | `purple-400` | 7.58 / 5.39（対 bg。文字ではない） |
 
 ライトの accent は Flexoki 公式の `cyan-600` ではなく `cyan-700`（600 は対 paper 4.43 で AA を下回る）。
 
@@ -124,6 +128,9 @@ ADR-0021（トークンの構造と hover）を参照。
 | Work の説明文 | `--color-text-muted` |
 | tech タグ | 文字 `--color-tag-text`、背景 `--color-tag-bg`、枠線なし |
 | 本文リンクの ↗ と、リンク内のブランドアイコン | リンクの色に従う（`currentColor`） |
+| Timeline の本線・月のノード・途切れの線分 | `--color-graph-mark` |
+| Timeline の分岐（点線）・出来事のノード | `--color-text-muted`。ノードの色を線と変えない |
+| Timeline の日付・件数の単位・ソースのアイコン | `--color-text-muted`。件数の数字は `--color-text` |
 
 本文リンクの下線は、位置（`text-underline-offset`）も太さ（`text-decoration-thickness`）も指定しない。
 Inter が持つ推奨値（18px で太さ約 1.23px、ベースラインの約 3.1px 下）を使い、g / q などの
@@ -170,9 +177,10 @@ Inter が持つ推奨値（18px で太さ約 1.23px、ベースラインの約 3
 美意識としての方針。妥協・変更してよい。ミニマル志向の趣味的な選択であり、必要が生じたら見直す。
 
 - `box-shadow` と `gradient` は使わない
-- `border-radius` は 0。例外は形そのものが円である要素（モバイルの current マーカーのドット）
+- `border-radius` は 0。例外は形そのものが円である要素（モバイルの current マーカーのドット、Timeline のノード）
 - 罫線は内容の区切りに必要な箇所だけに、細い線で引く（`table` / `hr` / `blockquote`、Work のエントリ間など）。
   レイアウトの構造を見せるための罫線は引かない。色は「色」の節の `--color-border`
+- Timeline の線は罫線ではなくグラフの要素として扱う。`--color-border` を使わず、この節の罫線の規則の対象外（ADR-0026）
 - 一覧の項目を面（`bg-2`）や枠線で囲んでカードにしない。Flexoki の罫線は文章になじむ強さで、
   面の輪郭には薄く、`bg-2` の面は本文の中で浮く。項目の間に区切り線を引く（ADR-0024）
 - 押せない領域に hover の変化を付けない。押せるように見えてしまう（ADR-0024）
