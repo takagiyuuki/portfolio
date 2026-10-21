@@ -1,4 +1,5 @@
 ---
+import Timeline from '@/components/Timeline.astro';
 import { languageAlternates, site } from '@/config/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 ---
@@ -12,6 +13,8 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
   homeHref="/en/"
   isFrontDoor
 >
-  <p><a href="/" lang="ja" hreflang="ja">日本語で読む →</a></p>
+  <p><a href="/" lang="ja" hreflang="ja">日本語で読む</a></p>
   <p>Work in progress; source on <a href={`${site.social.github}/portfolio`}>GitHub</a>.</p>
+  <h2>Recent activity</h2>
+  <Timeline digest={3} />
 </BaseLayout>
