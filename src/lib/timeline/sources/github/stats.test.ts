@@ -73,6 +73,7 @@ describe('githubStatsSource', () => {
         url: 'https://github.com/takagiyuuki?tab=overview&from=2025-06-01&to=2025-06-30',
         source: 'github-stats',
         lang: 'en',
+        count: 5,
       },
       {
         id: 'github-stats:2026-09',
@@ -82,6 +83,7 @@ describe('githubStatsSource', () => {
         url: 'https://github.com/takagiyuuki?tab=overview&from=2026-09-01&to=2026-09-30',
         source: 'github-stats',
         lang: 'en',
+        count: 157,
       },
     ]);
   });

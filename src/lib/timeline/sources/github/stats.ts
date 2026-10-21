@@ -75,6 +75,7 @@ export const githubStatsSource: TimelineSource = {
           url: `https://github.com/${user}?tab=overview&from=${month}-01&to=${lastDay}`,
           source: 'github-stats',
           lang: 'en',
+          count,
         }),
       );
   },

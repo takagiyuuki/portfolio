@@ -14,6 +14,8 @@ export interface TimelineEntry {
   source: string;
   /** Language of `title` / `detail`. Not derived from `source`. */
   lang: 'en' | 'ja';
+  /** The month's total, on `stats` entries only. */
+  count?: number;
 }
 
 export interface TimelineSource {
