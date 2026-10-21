@@ -24,7 +24,7 @@
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.14",
+    "@biomejs/biome": "^2.6.2",
     "@iconify-json/lucide": "^1.2.146",
     "@iconify-json/simple-icons": "^1.2.98",
     "@playwright/test": "^1.63.0",
