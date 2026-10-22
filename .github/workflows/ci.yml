@@ -21,6 +21,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
       - run: pnpm ${{matrix.script}}
+        env:
+          # Only the build fetches from GitHub; the other checks run without a token
+          GITHUB_TOKEN: ${{ matrix.script == 'build' && github.token || '' }}
   ci-pass:
     needs: check
     if: always()
