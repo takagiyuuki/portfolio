@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - main
+  # Rebuild daily so external sources (GitHub, Zenn) stay fresh. 15:30 UTC is 00:30 JST,
+  # just after a month closes in Japan, when the monthly stats move on.
+  schedule:
+    - cron: '30 15 * * *'
+  workflow_dispatch:
 concurrency:
   group: deploy-production
   cancel-in-progress: false
