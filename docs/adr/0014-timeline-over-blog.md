@@ -4,6 +4,8 @@
 
 Accepted (2026-08-26)
 
+Amended by: ADR-0025（ソースと取得方式を決定）
+
 ## Context
 
 ADR-0012 で `/writing` は外部 Zenn 記事の index（一覧のみ）と決定済み。しかし現時点で Zenn 記事は 1 本しかなく、一覧ページの価値が薄い。

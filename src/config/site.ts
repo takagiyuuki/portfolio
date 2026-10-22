@@ -1,6 +1,7 @@
 import type { PageMeta } from '@/types/page';
 
 const author = 'Yuki Takagi';
+const githubUser = 'takagiyuuki';
 
 export const site = {
   name: author,
@@ -8,8 +9,20 @@ export const site = {
   description: 'Projects, repositories, and activity.',
   author,
   social: {
-    github: 'https://github.com/takagiyuuki',
+    github: `https://github.com/${githubUser}`,
     linkedin: 'https://www.linkedin.com/in/takagiyuuki/',
+  },
+  timeline: {
+    github: {
+      user: githubUser,
+      /** Only public repositories carrying this topic appear. */
+      topic: 'showcase',
+      /** First month of the monthly stats, YYYY-MM. */
+      statsSince: '2025-06',
+    },
+    zenn: {
+      user: 'yukitakagi',
+    },
   },
 } as const;
 
