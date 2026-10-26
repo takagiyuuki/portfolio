@@ -6,4 +6,4 @@ allowBuilds:
 # miniflare pins undici exactly at 7.29.0, which leaves 10 advisories open.
 # 7.29.1 is the patch release for them. Drop this once miniflare bumps its pin.
 overrides:
-  miniflare>undici: 7.29.1
+  miniflare>undici: 8.12.2
