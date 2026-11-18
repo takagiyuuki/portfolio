@@ -7,14 +7,23 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 <BaseLayout
   title="Home"
   heading={site.author}
-  description="Portfolio site, work in progress."
+  description="Portfolio of an infrastructure engineer"
   lang="en"
   alternate={languageAlternates}
   homeHref="/en/"
   isFrontDoor
 >
   <p><a href="/" lang="ja" hreflang="ja">日本語で読む</a></p>
-  <p>Work in progress; source on <a href={`${site.social.github}/portfolio`}>GitHub</a>.</p>
+  <p>
+    I'm a server and network engineer. Since 2021 I've operated and built cloud and on-premises
+    infrastructure: configuration management with Ansible, IaaS migrations, network design and
+    testing, and leading hardware refresh projects.
+  </p>
+  <p>
+    I'm now moving toward SRE / Platform Engineering. This site is part of that practice: it's built
+    and run with Astro, Cloudflare Workers, Terraform and GitHub Actions. The source is on
+    <a href={`${site.social.github}/portfolio`}>GitHub</a>.
+  </p>
   <h2>Recent activity</h2>
   <Timeline digest={3} />
 </BaseLayout>
