@@ -20,7 +20,7 @@
     "@astrojs/check": "^0.9.10",
     "@rgrove/parse-xml": "^5.0.0",
     "@tailwindcss/vite": "^4.3.3",
-    "astro": "^7.3.5",
+    "astro": "^7.4.12",
     "astro-icon": "^1.2.0",
     "tailwindcss": "^4.3.3"
   },
@@ -32,8 +32,8 @@
     "@types/node": "^25.9.8",
     "lefthook": "^1.13.6",
     "typescript": "^5.9.3",
-    "vitest": "^4.1.11",
-    "wrangler": "^4.143.0"
+    "vitest": "^4.1.12",
+    "wrangler": "^4.163.0"
   },
   "packageManager": "pnpm@11.1.2"
 }

@@ -3,7 +3,8 @@ allowBuilds:
   lefthook: true
   sharp: true
   workerd: true
-# miniflare pins undici exactly at 7.29.0, which leaves 10 advisories open.
-# 7.29.1 is the patch release for them. Drop this once miniflare bumps its pin.
 overrides:
-  miniflare>undici: 7.29.1
+  # astro 7.4 pulls in @emnapi/runtime 2.0.0-beta through rolldown's wasm binding, and pnpm
+  # hands that beta to @astrojs/check's emnapi 1.x core as a peer, which breaks `astro check`.
+  # The beta is only needed by the wasm32 binding, which no supported platform installs.
+  '@emnapi/runtime': 1.11.3
