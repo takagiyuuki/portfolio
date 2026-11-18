@@ -34,11 +34,11 @@ Work ページ（#19）は当初、`src/content/work/` の Content Collection �
 
 型で表せる検査は型で行い、実行時の検証を書かない。Work では次をすべて型で検出している。
 
-| 壊れ方 | 型 |
-| --- | --- |
-| キーの綴り間違い、必須フィールドの欠落 | 型注釈の excess property check |
-| `https` 以外の URL | `` type HttpsUrl = `https://${string}` `` |
-| 空の配列（tech、エントリ全体） | 非空タプル `readonly [T, ...T[]]` |
+| 壊れ方                                 | 型                                        |
+| -------------------------------------- | ----------------------------------------- |
+| キーの綴り間違い、必須フィールドの欠落 | 型注釈の excess property check            |
+| `https` 以外の URL                     | `` type HttpsUrl = `https://${string}` `` |
+| 空の配列（tech、エントリ全体）         | 非空タプル `readonly [T, ...T[]]`         |
 
 **`astro build` は型を検査しない**（esbuild は型を取り除くだけ）。型による検査が効くのは、
 `astro check` が走る pre-commit（lefthook）・pre-push（`pnpm verify`）・PR CI の `typecheck`

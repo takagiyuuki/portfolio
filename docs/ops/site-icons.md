@@ -8,11 +8,11 @@ Keep it that way. A second file means a second thing to regenerate and a second 
 
 ## What ships
 
-| File | Purpose | `<link>` in `BaseLayout.astro` |
-| --- | --- | --- |
-| `logo.svg` | Sidebar brand mark and modern-browser favicon | `rel="icon"` `type="image/svg+xml"` |
-| `favicon.ico` | Legacy browsers, and the implicit root request | none needed |
-| `apple-touch-icon.png` | iOS home screen | `rel="apple-touch-icon"` |
+| File                   | Purpose                                        | `<link>` in `BaseLayout.astro`      |
+| ---------------------- | ---------------------------------------------- | ----------------------------------- |
+| `logo.svg`             | Sidebar brand mark and modern-browser favicon  | `rel="icon"` `type="image/svg+xml"` |
+| `favicon.ico`          | Legacy browsers, and the implicit root request | none needed                         |
+| `apple-touch-icon.png` | iOS home screen                                | `rel="apple-touch-icon"`            |
 
 `favicon.ico` needs no `<link>`: browsers request `/favicon.ico` from the site root whether or not
 it is declared. Shipping the file also removes the 404 that request would otherwise produce.
@@ -37,12 +37,12 @@ exactly.
 Neither layer is transparent, so whichever one matches the background disappears and the other
 carries the shape:
 
-| Background | What you see | Contrast |
-| --- | --- | --- |
-| `#ffffff` page | white body vanishes, dark outlines merge → **dark glyph** | 17.93:1 |
-| `#dee1e6` light tab strip | same → dark glyph | 13.68:1 |
-| `#35363a` dark tab strip | dark outline sinks, white body reads → **white glyph** | 12.07:1 |
-| `#0a0a0a` dark page | same → white glyph | 19.80:1 |
+| Background                | What you see                                              | Contrast |
+| ------------------------- | --------------------------------------------------------- | -------- |
+| `#ffffff` page            | white body vanishes, dark outlines merge → **dark glyph** | 17.93:1  |
+| `#dee1e6` light tab strip | same → dark glyph                                         | 13.68:1  |
+| `#35363a` dark tab strip  | dark outline sinks, white body reads → **white glyph**    | 12.07:1  |
+| `#0a0a0a` dark page       | same → white glyph                                        | 19.80:1  |
 
 Both renderings carry the same silhouette at comparable weight. The white body covers slightly more
 area than the dark outline, so the dark-theme rendering reads marginally heavier; the difference is
@@ -56,12 +56,12 @@ outlined glyph** — thinner and weaker than the solid white the current file al
 
 Delivery is the second reason. A dark variant could only be switched on one of the four surfaces:
 
-| Surface | Can it switch on theme? |
-| --- | --- |
-| Sidebar | yes, via `<picture>` + `prefers-color-scheme` |
-| favicon | unreliable — `media` on `<link rel="icon">` is inconsistently honoured |
-| apple-touch-icon | no, iOS does not switch |
-| Open Graph card | no, scrapers fetch server-side |
+| Surface          | Can it switch on theme?                                                |
+| ---------------- | ---------------------------------------------------------------------- |
+| Sidebar          | yes, via `<picture>` + `prefers-color-scheme`                          |
+| favicon          | unreliable — `media` on `<link rel="icon">` is inconsistently honoured |
+| apple-touch-icon | no, iOS does not switch                                                |
+| Open Graph card  | no, scrapers fetch server-side                                         |
 
 One file that works everywhere beats two files that work in one place.
 
@@ -166,15 +166,15 @@ in the browser network panel.
 
 A 12-stroke kanji has a hard floor. Showing N parallel strokes needs at least 2N−1 pixels, so:
 
-| Size | Result |
-| --- | --- |
-| 16px | illegible — an undifferentiated smudge |
-| 32px | dense, but recognisable as a distinct CJK mark |
+| Size  | Result                                         |
+| ----- | ---------------------------------------------- |
+| 16px  | illegible — an undifferentiated smudge         |
+| 32px  | dense, but recognisable as a distinct CJK mark |
 | 45px+ | fully legible; the sidebar renders at `2.7rem` |
 
 No colour or stroke adjustment changes this; it is stroke count against pixel count. HiDPI displays
 rasterise the 16px favicon slot at 32 device pixels, so the 32px row is what most people actually
-see, and a favicon needs to be *distinguishable* rather than *readable*.
+see, and a favicon needs to be _distinguishable_ rather than _readable_.
 
 If 16px legibility ever becomes a requirement, the answer is a simplified mark — the `氵` radical
 alone is three strokes, reads cleanly at 16px, and stays visually continuous with the full glyph.

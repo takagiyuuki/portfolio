@@ -26,10 +26,10 @@ interface TimelineSource {
 
 ### 失敗の扱いはソース自身が `required` で宣言する
 
-| | 読み込みの失敗 | 壊れたエントリ |
-| --- | --- | --- |
-| `required: true`（手書き） | ビルドを止める（元のエラーを `cause` に残す） | ビルドを止める |
-| `required: false`（外部） | 警告を出してそのソースを飛ばす | 警告を出してその 1 件を捨てる |
+|                            | 読み込みの失敗                                | 壊れたエントリ                |
+| -------------------------- | --------------------------------------------- | ----------------------------- |
+| `required: true`（手書き） | ビルドを止める（元のエラーを `cause` に残す） | ビルドを止める                |
+| `required: false`（外部）  | 警告を出してそのソースを飛ばす                | 警告を出してその 1 件を捨てる |
 
 - 「壊れたエントリ」は 3 種類: `id` が `<ソース名>:` で始まらない、同じソース内で `id` が重複する、
   `date` が実在しない（`astro/zod` の `z.iso.date()`）
@@ -46,13 +46,13 @@ interface TimelineSource {
 
 ### ソースごとの取り方
 
-| ソース | 取り方 | 載せるもの |
-| --- | --- | --- |
-| `manual` | `src/data/timeline.ts`（ADR-0022 の型付きモジュール） | データのない節目（資格・登壇など） |
-| `github-repo` | REST `/users/<user>/repos` | topic `showcase` を付けた、公開・非フォーク・非アーカイブのリポジトリの作成日 |
-| `github-contribution` | Search API `author:<user> -user:<user> is:public` | 他人のリポジトリへの Issue と、マージ済み・オープン中の PR（マージせず閉じた PR は除く） |
-| `github-stats` | GraphQL `contributionsCollection`、暦年ごとのエイリアスを 1 リクエストで | 締まった月ごとの contributions 数（非公開分の件数を含む）。0 件の月と今月は除く |
-| `zenn` | RSS（`https://zenn.dev/<user>/feed`）を `@rgrove/parse-xml` で読む | 記事 |
+| ソース                | 取り方                                                                   | 載せるもの                                                                               |
+| --------------------- | ------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| `manual`              | `src/data/timeline.ts`（ADR-0022 の型付きモジュール）                    | データのない節目（資格・登壇など）                                                       |
+| `github-repo`         | REST `/users/<user>/repos`                                               | topic `showcase` を付けた、公開・非フォーク・非アーカイブのリポジトリの作成日            |
+| `github-contribution` | Search API `author:<user> -user:<user> is:public`                        | 他人のリポジトリへの Issue と、マージ済み・オープン中の PR（マージせず閉じた PR は除く） |
+| `github-stats`        | GraphQL `contributionsCollection`、暦年ごとのエイリアスを 1 リクエストで | 締まった月ごとの contributions 数（非公開分の件数を含む）。0 件の月と今月は除く          |
+| `zenn`                | RSS（`https://zenn.dev/<user>/feed`）を `@rgrove/parse-xml` で読む       | 記事                                                                                     |
 
 - 日付はすべて日本時間（`Asia/Tokyo`）の暦日にする。API とフィードは UTC / GMT で返す
 - topic は、技術を表す topic と取り違えて付けないよう、意図した選別の語（`showcase`）にする

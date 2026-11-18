@@ -9,13 +9,13 @@ Decisions are documented with rationale so the same judgement can be replicated 
 
 Settings → Rules → Rulesets → New branch ruleset
 
-| Rule | Value | Reason |
-|---|---|---|
-| Target | `main` | Protect the production branch |
-| Restrict deletions | ✅ | Prevent accidental branch deletion |
-| Require pull request | ✅, 0 approvals | Enforce PR-based workflow; approval requirement waived for solo + AI workflow (see [ADR-0008](../adr/0008-branch-protection-policy.md)) |
-| Block force pushes | ✅ | Preserve commit history |
-| Require status checks | Add when CI workflow exists | Gate merges on passing CI |
+| Rule                  | Value                       | Reason                                                                                                                                  |
+| --------------------- | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Target                | `main`                      | Protect the production branch                                                                                                           |
+| Restrict deletions    | ✅                          | Prevent accidental branch deletion                                                                                                      |
+| Require pull request  | ✅, 0 approvals             | Enforce PR-based workflow; approval requirement waived for solo + AI workflow (see [ADR-0008](../adr/0008-branch-protection-policy.md)) |
+| Block force pushes    | ✅                          | Preserve commit history                                                                                                                 |
+| Require status checks | Add when CI workflow exists | Gate merges on passing CI                                                                                                               |
 
 ### GitHub Actions permissions
 
@@ -34,22 +34,22 @@ gh api -X PUT repos/<owner>/<repo>/vulnerability-alerts       # Dependabot alert
 gh api -X PUT repos/<owner>/<repo>/automated-security-fixes   # Dependabot security updates
 ```
 
-| Feature | Status | Note |
-|---|---|---|
-| Secret scanning | auto-enabled | Public repos: always on |
-| Push protection | auto-enabled | Blocks commits containing secrets |
-| Dependabot alerts | enabled | Notifies on vulnerable dependencies |
-| Dependabot security updates | enabled | Auto-opens PRs for security fixes |
+| Feature                     | Status       | Note                                |
+| --------------------------- | ------------ | ----------------------------------- |
+| Secret scanning             | auto-enabled | Public repos: always on             |
+| Push protection             | auto-enabled | Blocks commits containing secrets   |
+| Dependabot alerts           | enabled      | Notifies on vulnerable dependencies |
+| Dependabot security updates | enabled      | Auto-opens PRs for security fixes   |
 
 ### GitHub Actions Environment
 
 Settings → Environments → New environment → `production`
 
-| Setting | Value |
-|---|---|
-| Deployment branches | Selected: `main` only |
-| `CLOUDFLARE_API_TOKEN` | Environment secret |
-| `CLOUDFLARE_ACCOUNT_ID` | Environment secret |
+| Setting                 | Value                 |
+| ----------------------- | --------------------- |
+| Deployment branches     | Selected: `main` only |
+| `CLOUDFLARE_API_TOKEN`  | Environment secret    |
+| `CLOUDFLARE_ACCOUNT_ID` | Environment secret    |
 
 Reference in workflow:
 
@@ -66,12 +66,12 @@ jobs:
 
 ## Intentionally skipped
 
-| Feature | Reason |
-|---|---|
-| Security policy (SECURITY.md) | For OSS projects with external contributors. Not needed for a personal site |
-| Private vulnerability reporting | Same rationale — overkill for a solo portfolio |
-| Code scanning (CodeQL) | Scans for code vulnerabilities (SQL injection, XSS, etc.). No backend, no DB, no user data → low signal, high noise for a pure SSG |
-| Client IP filtering on Cloudflare token | GitHub Actions IPs are dynamic and not fixed |
+| Feature                                 | Reason                                                                                                                             |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Security policy (SECURITY.md)           | For OSS projects with external contributors. Not needed for a personal site                                                        |
+| Private vulnerability reporting         | Same rationale — overkill for a solo portfolio                                                                                     |
+| Code scanning (CodeQL)                  | Scans for code vulnerabilities (SQL injection, XSS, etc.). No backend, no DB, no user data → low signal, high noise for a pure SSG |
+| Client IP filtering on Cloudflare token | GitHub Actions IPs are dynamic and not fixed                                                                                       |
 
 ## Workflow `permissions:` reference
 

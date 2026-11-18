@@ -8,11 +8,11 @@ Status: Accepted
 CI/CD で Wrangler が Cloudflare へ Workers をデプロイする際の API Token を発行する必要がある。
 Cloudflare には2種類の API Token が存在する。
 
-| | User API Token (`v1.0-` / `cfut_` prefix) | Account API Token (`cfat_` prefix) |
-|---|---|---|
-| 紐づき | 特定ユーザー | アカウント独立(service principal) |
-| ユーザー削除時 | トークンも無効化 | 影響なし |
-| 一般的な推奨 | ad-hoc / 個人用途 | CI/CD / 長期サービス |
+|                | User API Token (`v1.0-` / `cfut_` prefix) | Account API Token (`cfat_` prefix) |
+| -------------- | ----------------------------------------- | ---------------------------------- |
+| 紐づき         | 特定ユーザー                              | アカウント独立(service principal)  |
+| ユーザー削除時 | トークンも無効化                          | 影響なし                           |
+| 一般的な推奨   | ad-hoc / 個人用途                         | CI/CD / 長期サービス               |
 
 SRE/Platform 観点では **Account API Token**(service principal)が原則的に正しい。CI/CD クレデンシャルは特定の人間のアイデンティティに依存すべきではない。
 
