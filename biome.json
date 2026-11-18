@@ -55,5 +55,16 @@
       "cssModules": false,
       "tailwindDirectives": false
     }
+  },
+  "markdown": {
+    "formatter": {
+      "enabled": true,
+      "formatEmbeds": false
+    }
+  },
+  "yaml": {
+    "formatter": {
+      "quoteStyle": "single"
+    }
   }
 }

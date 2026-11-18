@@ -2,15 +2,15 @@
 pre-commit:
   commands:
     biome:
-      glob: "*.{js,ts,jsx,tsx,json,jsonc,css,astro}"
+      glob: '*.{js,ts,jsx,tsx,json,jsonc,css,astro,md,yml,yaml}'
       run: pnpm exec biome check --write --no-errors-on-unmatched {staged_files}
       stage_fixed: true
     astro-check:
-      glob: "*.{astro,ts}"
+      glob: '*.{astro,ts}'
       run: pnpm typecheck
     actionlint:
       glob:
-        - ".github/workflows/*.{yml,yaml}"
+        - '.github/workflows/*.{yml,yaml}'
       run: actionlint {staged_files}
 pre-push:
   parallel: false
