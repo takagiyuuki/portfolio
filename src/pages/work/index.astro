@@ -12,35 +12,39 @@ const description = 'Projects and experiments.';
   <p>{description}</p>
   <ul class="entries">
     {work.map((entry) => (
-  <li class="entry">
-    <article>
-      <h2>
-        {entry.live ? <ExternalLink href={entry.live}>{entry.title}</ExternalLink> : entry.title}
-      </h2>
-      <p class="description">{entry.description}</p>
-      <ul class="tech" aria-label="Tech stack">
-        {entry.tech.map((name) => (
-          <li>
-            <Tag>{name}</Tag>
-          </li>
-        ))}
-      </ul>
-      <ul class="links">
-        <li>
-          <ExternalLink href={entry.repo}>
-            <Icon name="simple-icons:github" class="brand" aria-hidden="true" />
-            Source code
-          </ExternalLink>
-        </li>
-        {entry.article && (
-          <li>
-            <ExternalLink href={entry.article}>Read the article</ExternalLink>
-          </li>
-        )}
-      </ul>
-    </article>
-  </li>
-))}
+      <li class="entry">
+        <article>
+          <h2>
+            {entry.live ? (
+              <ExternalLink href={entry.live}>{entry.title}</ExternalLink>
+            ) : (
+              entry.title
+            )}
+          </h2>
+          <p class="description">{entry.description}</p>
+          <ul class="tech" aria-label="Tech stack">
+            {entry.tech.map((name) => (
+              <li>
+                <Tag>{name}</Tag>
+              </li>
+            ))}
+          </ul>
+          <ul class="links">
+            <li>
+              <ExternalLink href={entry.repo}>
+                <Icon name="simple-icons:github" class="brand" aria-hidden="true" />
+                Source code
+              </ExternalLink>
+            </li>
+            {entry.article && (
+              <li>
+                <ExternalLink href={entry.article}>Read the article</ExternalLink>
+              </li>
+            )}
+          </ul>
+        </article>
+      </li>
+    ))}
   </ul>
 </BaseLayout>
 

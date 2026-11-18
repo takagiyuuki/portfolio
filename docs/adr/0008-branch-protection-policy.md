@@ -57,12 +57,12 @@ Status: Accepted
 
 ## Alternatives Considered
 
-| 案 | 内容 | 不採用理由 |
-|---|---|---|
-| A | ruleset を一時 disable → merge → 再有効化 | 毎回手動操作が必要、自動化困難、運用負荷が高い |
-| B | bypass actors に "Repository admin" role を追加 | admin がすべての rule を bypass 可能になり、ガードが過度に弱まる |
-| C(採用) | `Required approvals: 1 → 0` | PR 経由は強制、approval 任意。admin 特権を増やさず最小変更 |
-| D | bypass actors に自分(user)を追加 | B と実質同じ。user 単位の方が明示的だが本質的なガード弱化は変わらない |
+| 案      | 内容                                            | 不採用理由                                                            |
+| ------- | ----------------------------------------------- | --------------------------------------------------------------------- |
+| A       | ruleset を一時 disable → merge → 再有効化       | 毎回手動操作が必要、自動化困難、運用負荷が高い                        |
+| B       | bypass actors に "Repository admin" role を追加 | admin がすべての rule を bypass 可能になり、ガードが過度に弱まる      |
+| C(採用) | `Required approvals: 1 → 0`                     | PR 経由は強制、approval 任意。admin 特権を増やさず最小変更            |
+| D       | bypass actors に自分(user)を追加                | B と実質同じ。user 単位の方が明示的だが本質的なガード弱化は変わらない |
 
 ## Notes
 

@@ -79,12 +79,12 @@ automerge が成立する前提は ADR-0008（required approvals = 0、PR-requir
 
 ## Alternatives Considered
 
-| 案 | 概要 | 採否 |
-|---|---|---|
-| Dependabot 継続 | `.github/dependabot.yml` を明示配置して Dependabot に統一 | ✖ flake.lock / Terraform provider lock を扱えない、Dependency Dashboard 相当が無い |
-| Dependabot + Renovate 併用 | 両方有効のまま | ✖ 同一依存に重複 PR が発生 |
-| Renovate self-host | 自前で Renovate を運用 | ✖ ソロ運用には過剰、SaaS で十分 |
-| **Renovate SaaS に統一 + Dependabot version updates OFF** | GitHub App + renovate.json | ✓ **採用** |
+| 案                                                        | 概要                                                      | 採否                                                                               |
+| --------------------------------------------------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Dependabot 継続                                           | `.github/dependabot.yml` を明示配置して Dependabot に統一 | ✖ flake.lock / Terraform provider lock を扱えない、Dependency Dashboard 相当が無い |
+| Dependabot + Renovate 併用                                | 両方有効のまま                                            | ✖ 同一依存に重複 PR が発生                                                         |
+| Renovate self-host                                        | 自前で Renovate を運用                                    | ✖ ソロ運用には過剰、SaaS で十分                                                    |
+| **Renovate SaaS に統一 + Dependabot version updates OFF** | GitHub App + renovate.json                                | ✓ **採用**                                                                         |
 
 ## References
 

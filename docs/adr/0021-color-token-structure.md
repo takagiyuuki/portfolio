@@ -8,14 +8,14 @@ Status: Accepted
 色のトークンは `src/styles/global.css` の `:root` に hex で直接書かれ、ライトの値を
 `@media (prefers-color-scheme: dark)` で上書きしていた。
 
-| トークン | 使われている場所 |
-| --- | --- |
-| `--background` / `--foreground` | `html` |
-| `--foreground-muted` | footer、nav の非アクティブ項目 |
-| `--link` | 本文リンク、nav の現在地 |
-| `--link-hover` | 本文リンクの hover |
-| `--border` | どこにもない |
-| `--social-icon` | footer のアイコン（値は `var(--foreground-muted)`） |
+| トークン                        | 使われている場所                                    |
+| ------------------------------- | --------------------------------------------------- |
+| `--background` / `--foreground` | `html`                                              |
+| `--foreground-muted`            | footer、nav の非アクティブ項目                      |
+| `--link`                        | 本文リンク、nav の現在地                            |
+| `--link-hover`                  | 本文リンクの hover                                  |
+| `--border`                      | どこにもない                                        |
+| `--social-icon`                 | footer のアイコン（値は `var(--foreground-muted)`） |
 
 この構成には次の問題があった。
 
@@ -38,10 +38,10 @@ ADR-0020 でパレットを Flexoki に変えるのに合わせて、トーク�
 
 ### 2 層に分ける
 
-| 層 | ファイル | 中身 |
-| --- | --- | --- |
-| primitive | `src/styles/flexoki.css` | パレットの色の名前と値（`--flexoki-*`）。使う色だけ |
-| semantic | `src/styles/global.css` | 用途の名前（`--color-*`）と、ライト / ダークそれぞれの割り当て |
+| 層        | ファイル                 | 中身                                                           |
+| --------- | ------------------------ | -------------------------------------------------------------- |
+| primitive | `src/styles/flexoki.css` | パレットの色の名前と値（`--flexoki-*`）。使う色だけ            |
+| semantic  | `src/styles/global.css`  | 用途の名前（`--color-*`）と、ライト / ダークそれぞれの割り当て |
 
 - `flexoki.css` にはメディアクエリを書かない。ライト / ダークの切り替えは semantic 層だけが行う
 - `global.css` の先頭（`@import 'tailwindcss';` の直後）で `@import './flexoki.css';` する。
